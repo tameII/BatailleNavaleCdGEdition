@@ -1,6 +1,7 @@
 package fr.ul.cdg.factory;
 
-import com.badlogic.gdx.math.Vector2;
+
+import fr.ul.cdg.util.Vector2;
 
 public abstract class Ship {
     protected int hp, nbCells, nbMunitions, orientation;
