@@ -1,11 +1,12 @@
 package fr.ul.cdg.model.strategy;
 
-import java.util.Vector;
+
+import fr.ul.cdg.util.Vector2;
 
 public class Ai implements Strategy{
 
     @Override
-    public Vector nextShot() {
+    public Vector2 nextShot() {
         return null;
     }
 

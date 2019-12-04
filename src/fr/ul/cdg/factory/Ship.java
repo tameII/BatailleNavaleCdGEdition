@@ -7,5 +7,16 @@ public abstract class Ship {
     protected int hp, nbCells, nbMunitions, orientation;
     protected Vector2 position;
 
-    protected void takeShot(){}
+    public void takeShot(){
+        hp = hp - 1;
+    }
+
+    @Override
+    public String toString() {
+        return "Ship{" +
+                "hp=" + hp +
+                ", nbCells=" + nbCells +
+                ", nbMunitions=" + nbMunitions +
+                '}';
+    }
 }

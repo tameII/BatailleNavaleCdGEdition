@@ -1,7 +1,8 @@
 package fr.ul.cdg.model.strategy;
 
-import java.util.Vector;
+import fr.ul.cdg.util.Vector2;
+
 
 public interface Strategy {
-    public Vector nextShot();
+    public Vector2 nextShot();
 }
