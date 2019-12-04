@@ -5,5 +5,5 @@ import java.util.List;
 
 public interface Era {
 
-    public Collection<Ship> shipCreation();
+    public List<Ship> shipCreation();
 }

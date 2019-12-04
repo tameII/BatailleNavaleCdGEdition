@@ -11,7 +11,7 @@ import java.util.List;
 
 public class EraRenaissance implements Era {
     @Override
-    public Collection<Ship> shipCreation() {
+    public List<Ship> shipCreation() {
         ArrayList<Ship> ships = new ArrayList<>();
         ships.add(new GallionRenaissance());
         ships.add(new FrigateRenaissance());
