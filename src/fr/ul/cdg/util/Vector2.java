@@ -23,4 +23,8 @@ public class Vector2 {
     public void setY(int y) {
         this.y = y;
     }
+
+    public String toString(){
+        return "x : "+x+", y : "+y;
+    }
 }

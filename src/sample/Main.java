@@ -3,6 +3,7 @@ package sample;
 import fr.ul.cdg.factory.Era;
 import fr.ul.cdg.factory.renaissance.EraRenaissance;
 import fr.ul.cdg.factory.scifi.EraSciFi;
+import fr.ul.cdg.model.Board;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,9 +23,11 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         Era era = new EraRenaissance();
-        System.out.println("Renaissance: "+era.shipCreation());
-        era = new EraSciFi();
-        System.out.println("SciFi: "+era.shipCreation());
+        Board b = new Board(era);
+        b.placeShips();
+        System.out.println(b.printCells());
+        //era = new EraSciFi();
+        //System.out.println("SciFi: "+era.shipCreation());
         launch(args);
     }
 }

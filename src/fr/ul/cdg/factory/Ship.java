@@ -47,6 +47,8 @@ public abstract class Ship {
                 "hp=" + hp +
                 ", nbCells=" + nbCells +
                 ", nbMunitions=" + nbMunitions +
+                ", orientation=" + orientation +
+                ", position=" + position +
                 '}';
     }
 }
