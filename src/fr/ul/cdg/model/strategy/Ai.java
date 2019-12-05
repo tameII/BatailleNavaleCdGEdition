@@ -3,9 +3,9 @@ package fr.ul.cdg.model.strategy;
 
 import fr.ul.cdg.util.Vector2;
 
-public class Ai implements Strategy{
+public class Ai{
 
-    @Override
+
     public Vector2 nextShot() {
         return null;
     }
