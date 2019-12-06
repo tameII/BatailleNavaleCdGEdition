@@ -1,6 +1,5 @@
 package fr.ul.cdg.model;
 
-import fr.ul.cdg.factory.Era;
 import fr.ul.cdg.factory.Ship;
 import fr.ul.cdg.util.Vector2;
 
@@ -10,11 +9,14 @@ import java.util.Random;
 public class Board {
     private List<Ship> shipList;
     private Cells cells;
-    public static final int BOARD_SIZE = 15;
+    public static final int BOARD_SIZE = 10;
     public static final int EMPTY_CELL = 0;
     public static final int EMPTY_FIRED_CELL = 1;
     public static final int OCCUPIED_CELL = 2;
     public static final int OCCUPIED_DAMAGED_CELL = 3;
+
+
+
     private class Cells{
         int[][] array;
 
@@ -35,12 +37,12 @@ public class Board {
          *
          * @return a position where there is no ship
          */
-        public Vector2 getRandomAvailablePosition(int size) {
+        public Vector2 getRandomAvailablePosition(int size, int orientation) {
             Random random = new Random();
             int x = random.nextInt(10);
             int y = random.nextInt(10);
-            if((array[x][y] == OCCUPIED_CELL || array[x][y] == OCCUPIED_DAMAGED_CELL) || x + size >= BOARD_SIZE || y + size >= BOARD_SIZE){
-                return getRandomAvailablePosition(size);
+            if((array[y][x] == OCCUPIED_CELL || array[y][x] == OCCUPIED_DAMAGED_CELL) || x + (size* (1- orientation)) >= BOARD_SIZE || y + (size*orientation) >= BOARD_SIZE){
+                return getRandomAvailablePosition(size, orientation);
             }
             else{
                 return new Vector2(x, y);
@@ -54,9 +56,30 @@ public class Board {
                 array[s.getPosition().getY() + (i * s.getOrientation())][s.getPosition().getX() + (i * (1-s.getOrientation()))] = OCCUPIED_CELL;
             }
         }
+
+        public Vector2 getRandomShotPosition() {
+            Random random = new Random();
+            int x = random.nextInt(10);
+            int y = random.nextInt(10);
+            if(array[y][x] != EMPTY_FIRED_CELL && array[y][x] != OCCUPIED_DAMAGED_CELL){
+                if(array[y][x] == EMPTY_CELL){
+                    array[y][x] = EMPTY_FIRED_CELL;
+                }
+                else{
+                    array[y][x] = OCCUPIED_DAMAGED_CELL;
+                }
+                return new Vector2(x,y);
+            }
+            return getRandomShotPosition();
+        }
     }
-    public Board(Era era){
-        shipList = era.shipCreation();
+
+    /**
+     *
+     * @param shipList
+     */
+    public Board(List<Ship> shipList){
+        this.shipList = shipList;
         cells = new Cells();
     }
 
@@ -89,8 +112,8 @@ public class Board {
         }
     }
 
-    public Vector2 getRandomAvailablePosition(int size){
-        return cells.getRandomAvailablePosition(size);
+    public Vector2 getRandomAvailablePosition(int size, int orientation){
+        return cells.getRandomAvailablePosition(size, orientation);
     }
 
     /**
@@ -99,17 +122,20 @@ public class Board {
     public void placeShips(){
         int nbPlaced = 0;
         for(Ship s : shipList){
-            Vector2 v = getRandomAvailablePosition(s.getNbCells());
-            int canBePlaced = 0;
+
+            boolean canBePlaced = false;
             Random random = new Random();
+
             s.setOrientation(random.nextInt(2));
+            Vector2 v = getRandomAvailablePosition(s.getNbCells(), s.getOrientation());
             int x = v.getX(), y = v.getY();
-            while (canBePlaced == 0){
-                int conflict = 0;
+            while (!canBePlaced){
+
+                boolean conflict = false;
                 for(int i = 0; i < s.getNbCells(); i++){
                     //System.out.println(x + " " + y);
-                    if(findBoatAtPosition(new Vector2(x,y)) != null || x >= BOARD_SIZE || y >= BOARD_SIZE){
-                        conflict = 1;
+                    if(cells.getCell(x,y) == OCCUPIED_CELL || cells.getCell(x,y) == OCCUPIED_DAMAGED_CELL || x >= BOARD_SIZE || y >= BOARD_SIZE){
+                        conflict = true;
                     }
                     if(s.getOrientation() == 0){
                         x++;
@@ -118,14 +144,17 @@ public class Board {
                         y++;
                     }
                 }
-                if(conflict == 1){
-                    v = getRandomAvailablePosition(s.getNbCells());
+                if(conflict){
+                    v = getRandomAvailablePosition(s.getNbCells(), s.getOrientation());
                     x = v.getX();
                     y = v.getY();
                 }
                 else{
-                    canBePlaced = 1;
+                    canBePlaced = true;
                 }
+                //System.out.println(v);
+                //System.out.println(s.getOrientation());
+                //System.out.println(printCells());
 
             }
             nbPlaced++;
@@ -136,6 +165,10 @@ public class Board {
         }
 
 
+    }
+
+    public Vector2 getRandomShotPosition() {
+        return cells.getRandomShotPosition();
     }
 
     private void placeShip(Ship s) {
