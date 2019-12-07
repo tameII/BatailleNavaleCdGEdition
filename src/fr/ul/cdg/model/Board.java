@@ -14,7 +14,7 @@ public class Board {
     public static final int EMPTY_FIRED_CELL = 1;
     public static final int OCCUPIED_CELL = 2;
     public static final int OCCUPIED_DAMAGED_CELL = 3;
-
+    public static final int INTERVAL_NEAR = 5;
 
 
     private class Cells{
@@ -39,8 +39,8 @@ public class Board {
          */
         public Vector2 getRandomAvailablePosition(int size, int orientation) {
             Random random = new Random();
-            int x = random.nextInt(10);
-            int y = random.nextInt(10);
+            int x = random.nextInt(BOARD_SIZE);
+            int y = random.nextInt(BOARD_SIZE);
             if((array[y][x] == OCCUPIED_CELL || array[y][x] == OCCUPIED_DAMAGED_CELL) || x + (size* (1- orientation)) >= BOARD_SIZE || y + (size*orientation) >= BOARD_SIZE){
                 return getRandomAvailablePosition(size, orientation);
             }
@@ -59,31 +59,76 @@ public class Board {
 
         public Vector2 getRandomShotPosition() {
             Random random = new Random();
-            int x = random.nextInt(10);
-            int y = random.nextInt(10);
-            if(array[y][x] != EMPTY_FIRED_CELL && array[y][x] != OCCUPIED_DAMAGED_CELL){
-                if(array[y][x] == EMPTY_CELL){
-                    array[y][x] = EMPTY_FIRED_CELL;
-                }
-                else{
-                    array[y][x] = OCCUPIED_DAMAGED_CELL;
-                }
-                return new Vector2(x,y);
+            int x = random.nextInt(BOARD_SIZE);
+            int y = random.nextInt(BOARD_SIZE);
+            if (isNotFiredCell(x, y)) {
+                setCellFired(x, y);
+                return new Vector2(x, y);
             }
             return getRandomShotPosition();
         }
+
+        /**
+         * We start at the bottom left corner of the circle and
+         * we add a random int too it coordinates
+         * @param pos the position you want to be near
+         * @return a random Vector2 near the given pos
+         */
+        public Vector2 getRandomShotNearPosition(Vector2 pos) {
+            Random random = new Random();
+            int diameter = BOARD_SIZE/INTERVAL_NEAR;
+            int radius = diameter/2;
+            int x = pos.getX() - radius + random.nextInt(diameter);
+            int y = pos.getY() - radius + random.nextInt(diameter);
+            if (isNotFiredCell(x, y)) {
+                setCellFired(x,y);
+                return new Vector2(x, y);
+            }
+            return getRandomShotNearPosition(pos);
+        }
+
+        /**
+         * Set the cell in the given coordinate at fired
+         * @param x posX
+         * @param y posY
+         */
+        private void setCellFired(int x, int y){
+            if(array[y][x] == EMPTY_CELL){
+                array[y][x] = EMPTY_FIRED_CELL;
+            }
+            else{
+                array[y][x] = OCCUPIED_DAMAGED_CELL;
+            }
+        }
+
+        /**
+         * Test if the cell can be fired on
+         * @param x posX
+         * @param y posY
+         * @return tru if the cell is not damaged or fired
+         */
+        private boolean isNotFiredCell(int x, int y) {
+            return array[y][x] != EMPTY_FIRED_CELL && array[y][x] != OCCUPIED_DAMAGED_CELL;
+        }
     }
 
+
+
+
     /**
-     *
-     * @param shipList
+     * @param shipList the list of the ship who will be placed on the board
      */
     public Board(List<Ship> shipList){
         this.shipList = shipList;
         cells = new Cells();
     }
 
-    private Ship findBoatAtPosition(Vector2 v) {
+    /**
+     * Give the ship at the given position
+     * @param v the given position
+     * @return the ship at the given position or null
+     */
+    public Ship findBoatAtPosition(Vector2 v) {
         for (Ship s : shipList) {
             Vector2 vectorBoat = s.getPosition();
             if(vectorBoat != null) {
@@ -167,6 +212,7 @@ public class Board {
 
     }
 
+    public Vector2 getRandomShotNearPosition(Vector2 pos) {return cells.getRandomShotNearPosition(pos);}
     public Vector2 getRandomShotPosition() {
         return cells.getRandomShotPosition();
     }

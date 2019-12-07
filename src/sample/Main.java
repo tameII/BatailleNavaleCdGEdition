@@ -25,17 +25,13 @@ public class Main extends Application {
     public static void main(String[] args){
         Era era = new EraRenaissance();
         Game g= new Game(era.shipCreation(), era.shipCreation());
-        for(int i = 0; i < 20000; i++) {
-             g = new Game(era.shipCreation(), era.shipCreation());
-        }
         for(int i = 0; i < 5; i++){
             g.nextShotAI();
         }
         System.out.println(g.getAiBoard().printCells());
         System.out.println("/////");
         System.out.println(g.getPlayerBoard().printCells());
-        //era = new EraSciFi();
-        //System.out.println("SciFi: "+era.shipCreation());
+
         launch(args);
     }
 }
