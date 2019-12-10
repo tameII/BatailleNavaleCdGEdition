@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import fr.ul.cdg.mv.view.BoardCanvas?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="500.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.ul.cdg.mv.controller.BoardAiController">
+   <bottom>
+      <StackPane prefHeight="50.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <ProgressBar fx:id="aiFleetHP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="RIGHT_TO_LEFT" progress="0.61" style="-fx-accent: red;" />
+            <Label text="Communist Fleet" textFill="#808080">
+               <font>
+                  <Font name="System Bold" size="32.0" />
+               </font>
+            </Label>
+         </children>
+      </StackPane>
+   </bottom>
+   <center>
+      <VBox fx:id="boardPane" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <StackPane fx:id="topStack" prefHeight="100.0">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+               </padding>
+               <children>
+                  <Label fx:id="turnLabel" text="Thinking...">
+                     <font>
+                        <Font size="32.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="boatSelectLabel" text="Fired with Destroyer">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+               </children></StackPane>
+            <Pane prefHeight="250.0" prefWidth="250.0" style="-fx-border-width: 2; -fx-border-color: black;">
+               <BoardCanvas fx:id="aiBoardCanvas" height="250.0" width="250.0" />
+               <VBox.margin>
+                  <Insets left="25.0" right="25.0" />
+               </VBox.margin>
+            </Pane>
+            <StackPane fx:id="botStack" prefHeight="100.0">
+               <padding>
+                  <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+               </padding>
+               <children>
+                  <Label fx:id="hitLabel" text="Hit / Miss label">
+                     <font>
+                        <Font size="32.0" />
+                     </font>
+                  </Label>
+               </children></StackPane>
+         </children></VBox>
+   </center>
+</BorderPane>

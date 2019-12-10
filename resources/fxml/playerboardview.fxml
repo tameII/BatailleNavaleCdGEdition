@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import fr.ul.cdg.mv.view.BoardCanvas?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="500.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.ul.cdg.mv.controller.BoardPlayerController">
+   <bottom>
+      <StackPane prefHeight="50.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <ProgressBar fx:id="playerFleetHP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" progress="0.61" style="-fx-accent: blue;" />
+            <Label text="De Gaulle Navy" textFill="#808080">
+               <font>
+                  <Font name="System Bold" size="32.0" />
+               </font>
+            </Label>
+         </children>
+      </StackPane>
+   </bottom>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <StackPane fx:id="topStack" prefHeight="100.0">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+               </padding>
+               <children>
+                  <Label fx:id="turnLabel" text="Your turn">
+                     <font>
+                        <Font size="32.0" />
+                     </font>
+                  </Label>
+                  <VBox fx:id="boatSelectBox">
+                     <children>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Label fx:id="boatSelectLabel" text="Destroyer : " HBox.hgrow="ALWAYS">
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                              </Label>
+                              <ProgressBar fx:id="boatSelectHP" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="139.0" progress="0.72" />
+                           </children>
+                        </HBox>
+                        <HBox fx:id="boatAmmo" prefHeight="100.0" prefWidth="200.0" />
+                     </children>
+                  </VBox>
+               </children></StackPane>
+            <Pane prefHeight="250.0" prefWidth="250.0" style="-fx-border-width: 2; -fx-border-color: black;">
+               <BoardCanvas fx:id="playerBoardCanvas" height="250.0" width="250.0" />
+               <VBox.margin>
+                  <Insets left="25.0" right="25.0" />
+               </VBox.margin>
+            </Pane>
+            <StackPane fx:id="botStack" prefHeight="100.0">
+               <padding>
+                  <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+               </padding>
+               <children>
+                  <Label fx:id="hitLabel" text="Hit / Miss label">
+                     <font>
+                        <Font size="32.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="placingLabel" layoutX="54.0" layoutY="37.0" text="Placing Destroyer (4)">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+               </children></StackPane>
+         </children></VBox>
+   </center>
+</BorderPane>
