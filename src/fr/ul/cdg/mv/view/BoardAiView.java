@@ -9,7 +9,7 @@ public class BoardAiView implements Views {
 
     private BorderPane view;
 
-    public BoardAiView(Board board){
+    public BoardAiView(Game board){
         view = (BorderPane) ViewsLoader.loadFXML("aiboardview.fxml",board);
     }
 

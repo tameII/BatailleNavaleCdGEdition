@@ -10,7 +10,7 @@ public class BoardPlayerView implements Views {
 
     private BorderPane view;
 
-    public BoardPlayerView(Board board){
+    public BoardPlayerView(Game board){
         view = (BorderPane) ViewsLoader.loadFXML("playerboardview.fxml",board);
     }
 

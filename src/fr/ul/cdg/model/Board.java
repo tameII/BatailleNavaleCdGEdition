@@ -3,6 +3,7 @@ package fr.ul.cdg.model;
 import fr.ul.cdg.factory.Ship;
 import fr.ul.cdg.util.Vector2;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -59,13 +60,30 @@ public class Board {
 
         public Vector2 getRandomShotPosition() {
             Random random = new Random();
+            int tries = BOARD_SIZE*BOARD_SIZE;
             int x = random.nextInt(BOARD_SIZE);
             int y = random.nextInt(BOARD_SIZE);
+            //Try to get a location at random
+            while(tries>0 && !isNotFiredCell(x,y)){
+                x = random.nextInt(BOARD_SIZE);
+                y = random.nextInt(BOARD_SIZE);
+                tries--;
+            }
             if (isNotFiredCell(x, y)) {
-                setCellFired(x, y);
                 return new Vector2(x, y);
             }
-            return getRandomShotPosition();
+            //Fail-safe : if no firing location could be found at random, enumerate every cell until one is available
+            for(int i=0 ; i < BOARD_SIZE ; i++){
+                for(int j=0 ; j < BOARD_SIZE; j++){
+                    if(isNotFiredCell(j,i)){
+                        x=j;
+                        y=i;
+                        break;
+                    }
+                }
+                if(isNotFiredCell(x,y)) break;
+            }
+            return new Vector2(x,y);
         }
 
         /**
@@ -78,13 +96,20 @@ public class Board {
             Random random = new Random();
             int diameter = BOARD_SIZE/INTERVAL_NEAR;
             int radius = diameter/2;
-            int x = pos.getX() - radius + random.nextInt(diameter);
-            int y = pos.getY() - radius + random.nextInt(diameter);
+            int x = pos.getX() - radius + random.nextInt(diameter+1);
+            int y = pos.getY() - radius + random.nextInt(diameter+1);
+            int tries = 4*radius*radius;
+            //Try to get a location near pos
+            while(tries > 0 && isNotFiredCell(x,y)){
+                x = pos.getX() - radius + random.nextInt(diameter+1);
+                y = pos.getY() - radius + random.nextInt(diameter+1);
+                tries--;
+            }
             if (isNotFiredCell(x, y)) {
-                setCellFired(x,y);
                 return new Vector2(x, y);
             }
-            return getRandomShotNearPosition(pos);
+            //Fail-safe : return a position at random
+            return getRandomShotPosition();
         }
 
         /**
@@ -105,14 +130,24 @@ public class Board {
          * Test if the cell can be fired on
          * @param x posX
          * @param y posY
-         * @return tru if the cell is not damaged or fired
+         * @return true if the cell is not damaged or fired
          */
         private boolean isNotFiredCell(int x, int y) {
             return array[y][x] != EMPTY_FIRED_CELL && array[y][x] != OCCUPIED_DAMAGED_CELL;
         }
     }
 
+    public class FiredShots{
+        public int x;
+        public int y;
+        public int state;
 
+        private FiredShots(int x, int y, int state){
+            this.state=state;
+            this.x=x;
+            this.y=y;
+        }
+    }
 
 
     /**
@@ -135,7 +170,7 @@ public class Board {
                 int x = vectorBoat.getX();
                 int y = vectorBoat.getY();
                 for (int i = 0; i < s.getNbCells(); i++) {
-                    if (v.getX() == x && v.getY() == v.getY()) {
+                    if (v.getX() == x && v.getY() == y) {
                         return s;
                     }
                     if (s.getOrientation() == Ship.HORIZONTAL) {
@@ -149,12 +184,16 @@ public class Board {
         return null;
     }
 
-
-    public void takeShot(Vector2 pos){
-        Ship s = findBoatAtPosition(pos);
-        if(s != null){
-            s.takeShot();
+    public boolean takeShot(Vector2 pos){
+        if(cells.isNotFiredCell(pos.getX(),pos.getY())) {
+            Ship s = findBoatAtPosition(pos);
+            if (s != null) {
+                s.takeShot();
+            }
+            cells.setCellFired(pos.getX(), pos.getY());
+            return true;
         }
+        return false;
     }
 
     public Vector2 getRandomAvailablePosition(int size, int orientation){
@@ -217,12 +256,33 @@ public class Board {
         return cells.getRandomShotPosition();
     }
 
-    private void placeShip(Ship s) {
+    public void placeShip(Ship s) {
         cells.placeShip(s);
     }
 
     public List<Ship> getShipList() {
         return shipList;
+    }
+
+    public int getFleetHp(){
+        int val=0;
+        for (Ship s : getShipList()){
+            val+=s.getHp();
+        }
+        return val;
+    }
+
+    public List<FiredShots> getFiredShots(){
+        List<FiredShots> list = new LinkedList<>();
+        for(int x = 0; x < BOARD_SIZE ; x++){
+            for(int y = 0; y < BOARD_SIZE; y++){
+                int c = cells.getCell(x,y);
+                if(c==EMPTY_FIRED_CELL || c==OCCUPIED_DAMAGED_CELL){
+                    list.add(new FiredShots(x,y,c));
+                }
+            }
+        }
+        return list;
     }
 
     public String printCells(){

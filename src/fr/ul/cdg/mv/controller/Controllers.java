@@ -1,5 +1,7 @@
 package fr.ul.cdg.mv.controller;
 
-public interface Controllers {
+import java.util.Observer;
+
+public interface Controllers extends Observer {
     void initData(Object o);
 }

@@ -8,7 +8,6 @@ import fr.ul.cdg.util.Vector2;
 public class Ai{
     private Strategy strategy;
 
-
     public Ai() {
         strategy = new StrategyRandom();
     }

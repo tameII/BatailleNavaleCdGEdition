@@ -2,17 +2,17 @@ package fr.ul.cdg.mv.view;
 
 import fr.ul.cdg.model.Game;
 import fr.ul.cdg.util.ViewsLoader;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 
 public class BatailleNavaleView implements Views{
 
-    private HBox view;
+    private StackPane view;
 
     public BatailleNavaleView(Game g){
-        view = (HBox) ViewsLoader.loadFXML("bataillenavaleview.fxml",g);
+        view = (StackPane) ViewsLoader.loadFXML("bataillenavaleview.fxml",g);
     }
 
-    public HBox getView() {
+    public StackPane getView() {
         return view;
     }
 }
