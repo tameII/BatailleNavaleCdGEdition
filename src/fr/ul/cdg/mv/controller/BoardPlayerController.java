@@ -60,9 +60,12 @@ public class BoardPlayerController implements Controllers{
                         vertical=!vertical;
                     }
                     if(event.getButton()== MouseButton.PRIMARY){
-                        Ship s = ships.remove(0);
+                        Ship s = ships.get(0);
                         Vector2 pos = playerBoardCanvas.viewToBoard(new Vector2((int)event.getX(),(int)event.getY()));
-                        g.placePlayerShip(s,pos,vertical?Ship.VERTICAL:Ship.HORIZONTAL);
+                        if(g.placePlayerShip(s,pos,vertical?Ship.VERTICAL:Ship.HORIZONTAL)){
+                            ships.remove(0);
+                        }
+
                     }
                     break;
                 case PLAYER_AIM:

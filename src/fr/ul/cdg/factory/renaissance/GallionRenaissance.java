@@ -9,4 +9,9 @@ public class GallionRenaissance extends Ship {
         hp = 5;
         nbMunitions = 20;
     }
+
+    @Override
+    public String getName(){
+        return "Gallion";
+    }
 }

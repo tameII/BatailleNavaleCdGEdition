@@ -9,4 +9,9 @@ public class BrickRenaissance extends Ship {
         hp = 2;
         nbMunitions = 20;
     }
+
+    @Override
+    public String getName(){
+        return "Brick";
+    }
 }

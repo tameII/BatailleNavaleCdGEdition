@@ -41,7 +41,7 @@ public abstract class Ship {
         this.position = position;
     }
 
-    public String getName() { return "Ship"; } //TODO : Override this for every ship type
+    public String getName() { return "Ship"; }
 
     @Override
     public String toString() {

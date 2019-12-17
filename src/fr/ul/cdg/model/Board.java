@@ -15,6 +15,7 @@ public class Board {
     public static final int EMPTY_FIRED_CELL = 1;
     public static final int OCCUPIED_CELL = 2;
     public static final int OCCUPIED_DAMAGED_CELL = 3;
+    public static final int OUT_OF_BOARD_CELL = 4;
     public static final int INTERVAL_NEAR = 5;
 
 
@@ -30,7 +31,17 @@ public class Board {
             }
         }
 
+        /**
+         * get the type of the cell in the given coordinate
+         * @param x the x pos
+         * @param y the y pos
+         * @return the type of cell, or OUT_OF_BOARD_CELL if the cell is not in the tab
+         */
         int getCell(int x, int y){
+            if(x<0 || y <0 || x>=BOARD_SIZE || y >= BOARD_SIZE){
+                return OUT_OF_BOARD_CELL;
+            }
+
             return array[y][x];
         }
 
@@ -50,12 +61,29 @@ public class Board {
             }
         }
 
+        /**
+         * Place the ship s in the array
+         * Use the pos contained in the ship
+         * @param s the ship you want to place
+         */
         public void placeShip(Ship s) {
+
+            boolean conflict = false;
             for (int i = 0; i < s.getNbCells(); i++){
-                //System.out.println(s.getPosition().getY() + (i * s.getOrientation()));
-                //System.out.println(s.getPosition().getX() + (i * (1-s.getOrientation())));
-                array[s.getPosition().getY() + (i * s.getOrientation())][s.getPosition().getX() + (i * (1-s.getOrientation()))] = OCCUPIED_CELL;
+                int y = s.getPosition().getY() + (i * s.getOrientation());
+                int x = s.getPosition().getX() + (i * (1-s.getOrientation()));
+                conflict = isConflict(x,y,conflict);
+
             }
+            //Sry i didn't find better yet
+            if(!conflict) {
+                for (int i = 0; i < s.getNbCells(); i++) {
+                    int y = s.getPosition().getY() + (i * s.getOrientation());
+                    int x = s.getPosition().getX() + (i * (1 - s.getOrientation()));
+                    array[y][x] = OCCUPIED_CELL;
+                }
+            }
+
         }
 
         public Vector2 getRandomShotPosition() {
@@ -217,10 +245,7 @@ public class Board {
 
                 boolean conflict = false;
                 for(int i = 0; i < s.getNbCells(); i++){
-                    //System.out.println(x + " " + y);
-                    if(cells.getCell(x,y) == OCCUPIED_CELL || cells.getCell(x,y) == OCCUPIED_DAMAGED_CELL || x >= BOARD_SIZE || y >= BOARD_SIZE){
-                        conflict = true;
-                    }
+                    conflict = isConflict(x, y, conflict);
                     if(s.getOrientation() == 0){
                         x++;
                     }
@@ -236,19 +261,39 @@ public class Board {
                 else{
                     canBePlaced = true;
                 }
-                //System.out.println(v);
-                //System.out.println(s.getOrientation());
-                //System.out.println(printCells());
+
 
             }
             nbPlaced++;
-            System.out.println(nbPlaced);
             s.setPosition(v);
-            //System.out.println(s.getPosition());
             placeShip(s);
         }
 
 
+    }
+
+    public boolean isConflict(Ship s, boolean conflict){
+        for(int i=0;i<s.getNbCells(); i++){
+            int orientation = 1;
+            if(s.getOrientation() == 1){
+                orientation = 0;
+            }
+            int x = s.getPosition().getX()+(i*orientation);
+            int y = s.getPosition().getY()+(i*s.getOrientation());
+            conflict = isConflict(x,y,conflict);
+        }
+        return conflict;
+    }
+
+    public boolean isConflict(int x, int y, boolean conflict) {
+        int cell = cells.getCell(x,y);
+        if(cell == OUT_OF_BOARD_CELL) {
+                    return true;
+                }
+        if(cells.getCell(x,y) == OCCUPIED_CELL || cells.getCell(x,y) == OCCUPIED_DAMAGED_CELL){
+            return true;
+        }
+        return conflict;
     }
 
     public Vector2 getRandomShotNearPosition(Vector2 pos) {return cells.getRandomShotNearPosition(pos);}
