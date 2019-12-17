@@ -44,6 +44,8 @@ public class BoardCanvas extends Canvas {
                 gc.drawImage(ImagesLoader.getInstance().getSprite(ImagesLoader.Sprites.NOUGHT),f.x*ws,f.y*ws,ws,hs);
             }
         }
+
+
     }
 
     public Vector2 viewToBoard(Vector2 position){

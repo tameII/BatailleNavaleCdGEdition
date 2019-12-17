@@ -34,11 +34,15 @@ public class Game extends Observable {
         return playerBoard;
     }
 
-    public void placePlayerShip(Ship s, Vector2 pos, int orientation){
-        //TODO : Check validity of position (on board and not colliding with other ships)
+    public boolean placePlayerShip(Ship s, Vector2 pos, int orientation){
         s.setPosition(pos);
         s.setOrientation(orientation);
-        playerBoard.placeShip(s);
+        if(!playerBoard.isConflict(s, false)) {
+
+            playerBoard.placeShip(s);
+        }else{
+            return false;
+        }
         phase=Phase.PLAYER_THINKING;
         for(Ship ship : playerBoard.getShipList()){
             if(ship.getPosition()==null){
@@ -46,6 +50,7 @@ public class Game extends Observable {
             }
         }
         update();
+        return true;
     }
 
     public void fireShot(Vector2 pos) {

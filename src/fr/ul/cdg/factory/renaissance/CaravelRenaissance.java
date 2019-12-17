@@ -9,4 +9,9 @@ public class CaravelRenaissance extends Ship {
         hp = 3;
         nbMunitions = 20;
     }
+
+    @Override
+    public String getName(){
+        return "Caravel";
+    }
 }

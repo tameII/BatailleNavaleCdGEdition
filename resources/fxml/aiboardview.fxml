@@ -15,7 +15,7 @@
       <StackPane prefHeight="50.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <ProgressBar fx:id="aiFleetHP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="RIGHT_TO_LEFT" progress="0.61" style="-fx-accent: red;" />
-            <Label text="Communist Fleet" textFill="#808080">
+            <Label text="Communist Fleet" textFill="#808080" >
                <font>
                   <Font name="System Bold" size="32.0" />
                </font>

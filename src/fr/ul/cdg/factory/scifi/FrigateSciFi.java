@@ -9,4 +9,9 @@ public class FrigateSciFi extends Ship {
         hp = 4;
         nbMunitions = 20;
     }
+
+    @Override
+    public String getName(){
+        return "FrigateSciFi";
+    }
 }
