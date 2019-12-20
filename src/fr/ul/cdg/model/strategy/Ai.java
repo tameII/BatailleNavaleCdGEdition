@@ -16,4 +16,7 @@ public class Ai{
         return strategy.nextShot(game);
     }
 
+    public void setStrategy(Strategy strategy) {
+        this.strategy = strategy;
+    }
 }

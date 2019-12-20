@@ -3,6 +3,7 @@ package fr.ul.cdg.mv.controller;
 import fr.ul.cdg.model.Game;
 import fr.ul.cdg.mv.view.BoardCanvas;
 import fr.ul.cdg.util.Vector2;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -52,7 +53,7 @@ public class BoardAiController implements Controllers{
 
     @Override
     public void update(Observable o, Object arg) {
-        redraw();
+        Platform.runLater(this::redraw);
         switch (g.getPhase()){
             case AI_THINKING:
                 Timer t = new Timer();

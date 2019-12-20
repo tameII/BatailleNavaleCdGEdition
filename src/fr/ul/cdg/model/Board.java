@@ -330,6 +330,14 @@ public class Board {
         return list;
     }
 
+    public FiredShots getFiredShotAtPosition(Vector2 position){
+        int c = cells.getCell(position.getX(),position.getY());
+        if(c!=OUT_OF_BOARD_CELL){
+            return new FiredShots(position.getX(),position.getY(),c);
+        }
+        return null;
+    }
+
     public String printCells(){
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < BOARD_SIZE; i++){

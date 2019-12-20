@@ -1,5 +1,7 @@
 package fr.ul.cdg.util;
 
+import java.util.Objects;
+
 public class Vector2 {
     private int x, y;
 
@@ -43,5 +45,12 @@ public class Vector2 {
 
     public String toString(){
         return "x : "+x+", y : "+y;
+    }
+
+    public boolean equals(Vector2 obj) { return this.x == obj.getX() && this.y == obj.getY(); }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x,y);
     }
 }

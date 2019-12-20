@@ -38,9 +38,9 @@ public class Game extends Observable {
         s.setPosition(pos);
         s.setOrientation(orientation);
         if(!playerBoard.isConflict(s, false)) {
-
             playerBoard.placeShip(s);
         }else{
+            s.setPosition(null);
             return false;
         }
         phase=Phase.PLAYER_THINKING;
@@ -53,7 +53,17 @@ public class Game extends Observable {
         return true;
     }
 
-    public void fireShot(Vector2 pos) {
+    public List<Ship> getNonPlacedShips(){
+        List<Ship> list = new LinkedList<>();
+        for(Ship s : playerBoard.getShipList()){
+            if(s.getPosition()==null){
+                list.add(s);
+            }
+        }
+        return list;
+    }
+
+    public void fireShot(Vector2 pos){
         Timer t = new Timer();
         if(aiBoard.getShipList().contains(firing)){
             //AI shot
@@ -107,7 +117,7 @@ public class Game extends Observable {
         if(firing!=null){
             if(firing.getHp()>0){
                 this.firing=firing;
-                if(getPhase()==Phase.PLAYER_THINKING) setPhase(Phase.PLAYER_AIM);
+                setPhase(Phase.PLAYER_AIM);
                 return;
             }
         }

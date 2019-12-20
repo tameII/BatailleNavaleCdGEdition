@@ -5,7 +5,7 @@ import fr.ul.cdg.util.Vector2;
 
 public abstract class Ship {
     protected int hp, nbCells, nbMunitions, orientation;
-    protected Vector2 position;
+    protected Vector2 position=null;
     public static final int HORIZONTAL = 0;
     public static final int VERTICAL = 1;
 

@@ -4,6 +4,7 @@ import fr.ul.cdg.factory.Ship;
 import fr.ul.cdg.model.Game;
 import fr.ul.cdg.mv.view.BoardCanvas;
 import fr.ul.cdg.util.Vector2;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -46,7 +47,6 @@ public class BoardPlayerController implements Controllers{
 
     private Game g;
     private boolean vertical=false;
-    private List<Ship> ships;
 
     public void initialize(){
         boatSelectBox.setVisible(false);
@@ -60,11 +60,9 @@ public class BoardPlayerController implements Controllers{
                         vertical=!vertical;
                     }
                     if(event.getButton()== MouseButton.PRIMARY){
-                        Ship s = ships.get(0);
+                        Ship s = g.getNonPlacedShips().get(0);
                         Vector2 pos = playerBoardCanvas.viewToBoard(new Vector2((int)event.getX(),(int)event.getY()));
-                        if(g.placePlayerShip(s,pos,vertical?Ship.VERTICAL:Ship.HORIZONTAL)){
-                            ships.remove(0);
-                        }
+                        g.placePlayerShip(s,pos,vertical?Ship.VERTICAL:Ship.HORIZONTAL);
 
                     }
                     break;
@@ -93,14 +91,13 @@ public class BoardPlayerController implements Controllers{
     @Override
     public void initData(Object o) {
         g = (Game) o;
-        ships=new LinkedList<>(g.getPlayerBoard().getShipList());
         g.addObserver(this);
         redraw();
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        redraw();
+        Platform.runLater(this::redraw);
     }
 
     private void redraw(){
@@ -110,7 +107,7 @@ public class BoardPlayerController implements Controllers{
             case PLACING:
                 //TODO : Add a ghost display of where the ship would be placed (or at least a way to know if it's gonna be placed vertically or horizontally)
                 placingLabel.setVisible(true);
-                placingLabel.setText("Placing "+ships.get(0).getName()+" ("+ships.get(0).getNbCells()+")");
+                placingLabel.setText("Placing "+g.getNonPlacedShips().get(0).getName()+" ("+g.getNonPlacedShips().get(0).getNbCells()+")");
                 break;
             case PLAYER_THINKING:
                 placingLabel.setVisible(false);
@@ -121,7 +118,7 @@ public class BoardPlayerController implements Controllers{
                 turnLabel.setVisible(false);
                 boatSelectBox.setVisible(true);
                 boatSelectHP.progressProperty().setValue((double)g.getFiring().getHp()/g.getFiring().getNbCells());
-                boatSelectLabel.setText(g.getFiring().getName()+"("+g.getFiring().getNbCells()+") : ");
+                boatSelectLabel.setText(g.getFiring().getName()+" : ");
                 break;
             case PLAYER_FIRE:
                 //TODO : Show if the shot was either a hit or miss
