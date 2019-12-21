@@ -133,6 +133,7 @@ public class Board {
                 y = pos.getY() - radius + random.nextInt(diameter+1);
                 tries--;
             }
+
             if (isNotFiredCell(x, y)) {
                 return new Vector2(x, y);
             }
@@ -155,12 +156,13 @@ public class Board {
         }
 
         /**
-         * Test if the cell can be fired on
+         * Test if the cell can be fired on, if the cell is out of bound, return false so this position is not shot.
          * @param x posX
          * @param y posY
          * @return true if the cell is not damaged or fired
          */
         private boolean isNotFiredCell(int x, int y) {
+            if(x<0 || x >= BOARD_SIZE || y<0 || y >= BOARD_SIZE) return false;
             return array[y][x] != EMPTY_FIRED_CELL && array[y][x] != OCCUPIED_DAMAGED_CELL;
         }
     }
