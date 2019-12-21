@@ -1,7 +1,7 @@
 package fr.ul.cdg.mv.view;
 
-import javafx.scene.Node;
+import javafx.scene.Parent;
 
 public interface Views {
-    Node getView();
+    Parent getView();
 }

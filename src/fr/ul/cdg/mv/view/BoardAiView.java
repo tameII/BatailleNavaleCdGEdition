@@ -1,8 +1,8 @@
 package fr.ul.cdg.mv.view;
 
-import fr.ul.cdg.model.Board;
 import fr.ul.cdg.model.Game;
 import fr.ul.cdg.util.ViewsLoader;
+import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 
 public class BoardAiView implements Views {
@@ -14,7 +14,7 @@ public class BoardAiView implements Views {
     }
 
     @Override
-    public BorderPane getView() {
+    public Parent getView() {
         return view;
     }
 }
