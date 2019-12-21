@@ -54,7 +54,7 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Label fx:id="ammoLabel" text="Ammo" HBox.hgrow="ALWAYS">
+                              <Label fx:id="ammoLabel" text="Ammo : " HBox.hgrow="ALWAYS">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>

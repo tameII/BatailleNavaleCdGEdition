@@ -78,6 +78,7 @@ public class BoardPlayerController implements Controllers{
                         Ship s = g.getPlayerBoard().findBoatAtPosition(pos);
                         if(s!=null){
                             g.setFiring(s);
+                            playerBoardCanvas.setSelected(s);
                         }
                     }
                     break;

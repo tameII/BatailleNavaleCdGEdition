@@ -12,21 +12,22 @@ import java.util.List;
 
 public class BoardCanvas extends Canvas {
 
+    private Ship selected;
+
     public void drawBoard(Board bd, boolean playerBoard){
         GraphicsContext gc = this.getGraphicsContext2D();
-        gc.setStroke(new Color(0,0,0,1));
         double w = this.getWidth();
         double h = this.getHeight();
         double ws = w/Board.BOARD_SIZE;
         double hs = h/Board.BOARD_SIZE;
         gc.clearRect(0,0,w,h);
-        //Draw board
+        // Draw board
         gc.setStroke(Color.gray(0.25));
         for(int i = 0 ; i < Board.BOARD_SIZE ; i++){
             gc.strokeLine(i*ws,0,i*ws,h);
             gc.strokeLine(0,i*hs,w,i*hs);
         }
-        //Draw boats if player board or if dead
+        // Draw boats if player board or if dead
         for(Ship s : bd.getShipList()){
             if(s.getPosition()==null || (!playerBoard && s.getHp()>0)) continue;
             Vector2 pos = new Vector2(s.getPosition());
@@ -35,10 +36,17 @@ public class BoardCanvas extends Canvas {
             Vector2 size = new Vector2(s.getOrientation()==Ship.HORIZONTAL?s.getNbCells():1,s.getOrientation()==Ship.VERTICAL?s.getNbCells():1);
             size.mult((int)ws,(int)hs);
             size.add(-2*(int)ws/5,-2*(int)hs/5);
-            if(playerBoard) gc.setFill(new Color(0,0,1,1)); else gc.setFill(new Color(1,0,0,1));
+            if(s.equals(selected)){
+                gc.setFill(new Color(0.3,0.3,1,1));
+            }
+            else {
+               gc.setFill(playerBoard?new Color(0,0,1,1):new Color(1,0,0,1));
+            }
             gc.fillRect(pos.getX(),pos.getY(),size.getX(),size.getY());
+            gc.setStroke(Color.gray(0));
+            gc.strokeRect(pos.getX(),pos.getY(),size.getX(),size.getY());
         }
-        //Draw shots
+        // Draw shots
         for(Board.FiredShots f : bd.getFiredShots()){
             if(f.state==Board.EMPTY_FIRED_CELL){
                 gc.drawImage(ImagesLoader.getInstance().getSprite(ImagesLoader.Sprites.CROSS),f.x*ws,f.y*ws,ws,hs);
@@ -46,8 +54,10 @@ public class BoardCanvas extends Canvas {
                 gc.drawImage(ImagesLoader.getInstance().getSprite(ImagesLoader.Sprites.NOUGHT),f.x*ws,f.y*ws,ws,hs);
             }
         }
+    }
 
-
+    public void setSelected(Ship selected) {
+        this.selected = selected;
     }
 
     public Vector2 viewToBoard(Vector2 position){
