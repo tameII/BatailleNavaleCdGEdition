@@ -67,7 +67,7 @@ public class BoardPlayerController implements Controllers{
                     if(event.getButton()==MouseButton.PRIMARY){
                         Vector2 pos = playerBoardCanvas.viewToBoard(new Vector2((int)event.getX(),(int)event.getY()));
                         Ship s = g.getPlayerBoard().findBoatAtPosition(pos);
-                        if(s==null){
+                        if(s==null || !s.canFire()){
                             g.setFiring(null);
                             break;
                         }
@@ -114,7 +114,7 @@ public class BoardPlayerController implements Controllers{
             case PLAYER_AIM:
                 turnLabel.setVisible(false);
                 boatSelectBox.setVisible(true);
-                boatSelectHP.progressProperty().setValue((double)g.getPlayerFiring().getHp()/g.getPlayerFiring().getNbCells());
+                boatSelectHP.progressProperty().setValue((double)g.getPlayerFiring().getHp()/g.getPlayerFiring().getTotalHP());
                 boatSelectLabel.setText(g.getPlayerFiring().getName()+" : ");
                 boatAmmo.progressProperty().setValue((double)g.getPlayerFiring().getNbMunitions()/g.getPlayerFiring().getAmmoMax());
                 break;
@@ -130,6 +130,6 @@ public class BoardPlayerController implements Controllers{
                 hitLabel.setVisible(false);
                 break;
         }
-        playerFleetHP.progressProperty().setValue((float)g.getPlayerBoard().getFleetHp()/17f);
+        playerFleetHP.progressProperty().setValue((float)g.getPlayerBoard().getFleetHp()/(float)g.getPlayerTotalHP());
     }
 }

@@ -49,6 +49,8 @@ public abstract class Ship {
 
     public boolean canFire() { return nbMunitions>0 && getHp() > 0; }
 
+    public boolean isDead() {return hp <= 0;}
+
     @Override
     public String toString() {
         return "Ship{" +
@@ -61,4 +63,6 @@ public abstract class Ship {
     }
 
     public abstract double getAmmoMax();
+
+    public abstract int getTotalHP();
 }
