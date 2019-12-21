@@ -153,4 +153,13 @@ public class Game extends Observable {
         setChanged();
         notifyObservers();
     }
+
+    public int getPlayerTotalHP() {
+        return playerBoard.getTotalHP();
+
+    }
+
+    public int getAITotalHP() {
+        return aiBoard.getTotalHP();
+    }
 }

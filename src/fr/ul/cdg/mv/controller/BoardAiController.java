@@ -89,6 +89,6 @@ public class BoardAiController implements Controllers{
                 boatSelectLabel.setVisible(true);
                 break;
         }
-        aiFleetHP.progressProperty().setValue((float)g.getAiBoard().getFleetHp()/17f);
+        aiFleetHP.progressProperty().setValue((float)g.getAiBoard().getFleetHp()/(float)g.getAITotalHP());
     }
 }

@@ -4,10 +4,11 @@ package fr.ul.cdg.factory.renaissance;
 import fr.ul.cdg.factory.Ship;
 
 public class BrickRenaissance extends Ship {
+    public static int TOTAL_HP = 1;
     public static int AMMO_MAX = 20;
     public BrickRenaissance(){
         nbCells = 2;
-        hp = 2;
+        hp = TOTAL_HP;
         nbMunitions = AMMO_MAX;
     }
 
@@ -20,4 +21,11 @@ public class BrickRenaissance extends Ship {
     public double getAmmoMax() {
         return AMMO_MAX;
     }
+
+    @Override
+    public int getTotalHP() {
+        return TOTAL_HP;
+    }
+
+
 }

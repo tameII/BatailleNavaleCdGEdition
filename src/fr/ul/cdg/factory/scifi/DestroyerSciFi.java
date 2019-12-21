@@ -5,9 +5,10 @@ import fr.ul.cdg.factory.Ship;
 
 public class DestroyerSciFi extends Ship {
     public static int AMMO_MAX = 20;
+    public static int TOTAL_HP = 5;
     public DestroyerSciFi(){
         nbCells = 5;
-        hp = 5;
+        hp = TOTAL_HP;
         nbMunitions = AMMO_MAX;
 
     }
@@ -20,5 +21,9 @@ public class DestroyerSciFi extends Ship {
     @Override
     public double getAmmoMax() {
         return AMMO_MAX;
+    }
+    @Override
+    public int getTotalHP() {
+        return TOTAL_HP;
     }
 }
