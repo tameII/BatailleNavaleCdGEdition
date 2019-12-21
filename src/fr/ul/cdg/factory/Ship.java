@@ -10,7 +10,7 @@ public abstract class Ship {
     public static final int VERTICAL = 1;
 
     public void takeShot(){
-        hp = hp - 1;
+        hp=Math.max(0,Math.min(100,hp-1));
     }
 
     public void shot(){

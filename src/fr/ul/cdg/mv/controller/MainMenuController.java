@@ -1,6 +1,7 @@
 package fr.ul.cdg.mv.controller;
 
 import fr.ul.cdg.factory.Era;
+import fr.ul.cdg.factory.armada.EraArmada;
 import fr.ul.cdg.factory.renaissance.EraRenaissance;
 import fr.ul.cdg.factory.scifi.EraSciFi;
 import fr.ul.cdg.model.Game;
@@ -23,6 +24,9 @@ public class MainMenuController implements Controllers {
     private Button scifiEra;
 
     @FXML
+    private Button armadaEra;
+
+    @FXML
     private CheckBox rmiCheckbox;
 
     public void initialize(){
@@ -32,6 +36,9 @@ public class MainMenuController implements Controllers {
 
         scifiEra.setOnAction(event -> {
             createNewStage(new EraSciFi());
+        });
+        armadaEra.setOnAction(event -> {
+            createNewStage(new EraArmada());
         });
     }
 
