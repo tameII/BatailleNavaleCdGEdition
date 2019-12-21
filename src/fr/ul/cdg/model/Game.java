@@ -87,6 +87,7 @@ public class Game extends Observable {
                     setPhase(Phase.AI_THINKING);
                 }
             },750);
+            getFiring().shot();
         }
         setFiring(null);
         if(aiBoard.getFleetHp()==0 || playerBoard.getFleetHp()==0){

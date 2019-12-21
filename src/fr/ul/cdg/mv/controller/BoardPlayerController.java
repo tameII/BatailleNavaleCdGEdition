@@ -43,7 +43,7 @@ public class BoardPlayerController implements Controllers{
     private VBox boatSelectBox;
 
     @FXML
-    private HBox boatAmmo;
+    private ProgressBar boatAmmo;
 
     private Game g;
     private boolean vertical=false;
@@ -70,7 +70,7 @@ public class BoardPlayerController implements Controllers{
                     if(event.getButton()==MouseButton.PRIMARY){
                         Vector2 pos = playerBoardCanvas.viewToBoard(new Vector2((int)event.getX(),(int)event.getY()));
                         Ship s = g.getPlayerBoard().findBoatAtPosition(pos);
-                        if(s==null || s.equals(g.getFiring())){
+                        if(s==null){
                             g.setFiring(null);
                             break;
                         }
@@ -119,6 +119,7 @@ public class BoardPlayerController implements Controllers{
                 boatSelectBox.setVisible(true);
                 boatSelectHP.progressProperty().setValue((double)g.getFiring().getHp()/g.getFiring().getNbCells());
                 boatSelectLabel.setText(g.getFiring().getName()+" : ");
+                boatAmmo.progressProperty().setValue((double)g.getFiring().getNbMunitions()/g.getFiring().getAmmoMAx());
                 break;
             case PLAYER_FIRE:
                 //TODO : Show if the shot was either a hit or miss

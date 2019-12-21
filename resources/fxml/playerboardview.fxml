@@ -52,7 +52,16 @@
                               <ProgressBar fx:id="boatSelectHP" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="139.0" progress="0.72" />
                            </children>
                         </HBox>
-                        <HBox fx:id="boatAmmo" prefHeight="100.0" prefWidth="200.0" />
+                        <HBox  alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Label fx:id="ammoLabel" text="Ammo" HBox.hgrow="ALWAYS">
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                              </Label>
+                              <ProgressBar fx:id="boatAmmo" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="139.0" progress="0.72" />
+                           </children>
+                        </HBox>
                      </children>
                   </VBox>
                </children></StackPane>

@@ -13,6 +13,10 @@ public abstract class Ship {
         hp = hp - 1;
     }
 
+    public void shot(){
+        nbMunitions--;
+    }
+
     public int getHp() {
         return hp;
     }
@@ -53,4 +57,6 @@ public abstract class Ship {
                 ", position=" + position +
                 '}';
     }
+
+    public abstract double getAmmoMAx();
 }
