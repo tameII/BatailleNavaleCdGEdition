@@ -32,7 +32,7 @@
                   <Insets />
                </VBox.margin>
                <padding>
-                  <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </padding>
                <children>
                   <Label fx:id="turnLabel" text="Your turn">
@@ -52,7 +52,7 @@
                               <ProgressBar fx:id="boatSelectHP" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="139.0" progress="0.72" />
                            </children>
                         </HBox>
-                        <HBox  alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
                               <Label fx:id="ammoLabel" text="Ammo" HBox.hgrow="ALWAYS">
                                  <font>

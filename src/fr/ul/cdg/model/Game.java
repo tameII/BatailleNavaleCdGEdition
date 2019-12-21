@@ -11,13 +11,13 @@ public class Game extends Observable {
     private Board aiBoard;
     private Board playerBoard;
     private Phase phase;
-    private Ship firing;
+    private Ship[] firing;
     private Ai ai = new Ai();
 
     public Game(List<Ship> shipListAI, List<Ship> shipListPlayer){
         createBoards(shipListAI, shipListPlayer);
         phase = Phase.PLACING;
-        firing = null;
+        firing = new Ship[]{null,null};
     }
 
     private void createBoards(List<Ship> shipListAI, List<Ship> shipListPlayer) {
@@ -65,31 +65,34 @@ public class Game extends Observable {
 
     public void fireShot(Vector2 pos){
         Timer t = new Timer();
-        if(aiBoard.getShipList().contains(firing)){
+        if(getPhase()==Phase.AI_THINKING){
             //AI shot
             if(playerBoard.takeShot(pos)) {
                 setPhase(Phase.AI_FIRE);
                 t.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        setPhase(Phase.PLAYER_THINKING);
+                        setPhase(Phase.PLAYER_AIM);
                     }
                 },800);
+                getAiFiring().shot();
                 return;
             }
         }
-        //Player shot
-        if(aiBoard.takeShot(pos)){
-            setPhase(Phase.PLAYER_FIRE);
-            t.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    setPhase(Phase.AI_THINKING);
-                }
-            },750);
-            getFiring().shot();
+        if(getPhase()==Phase.PLAYER_AIM) {
+            //Player shot
+            if(!getPlayerFiring().canFire()) return;
+            if (aiBoard.takeShot(pos)) {
+                setPhase(Phase.PLAYER_FIRE);
+                getPlayerFiring().shot();
+                t.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        setPhase(Phase.AI_THINKING);
+                    }
+                }, 750);
+            }
         }
-        setFiring(null);
         if(aiBoard.getFleetHp()==0 || playerBoard.getFleetHp()==0){
             t.cancel();
             setPhase(Phase.GAME_OVER);
@@ -99,7 +102,7 @@ public class Game extends Observable {
 
     public void nextShotAI(){
         Random rd = new Random();
-        while(firing==null){
+        while(getAiFiring()==null){
             setFiring(getAiBoard().getShipList().get(rd.nextInt(getAiBoard().getShipList().size())));
         }
         fireShot(ai.nextShot(this));
@@ -115,18 +118,34 @@ public class Game extends Observable {
     }
 
     public void setFiring(Ship firing) {
-        if(firing!=null){
-            if(firing.getHp()>0){
-                this.firing=firing;
-                setPhase(Phase.PLAYER_AIM);
-                return;
-            }
+        if(firing == null) return;
+        if(getPlayerBoard().getShipList().contains(firing)){
+            setPlayerFiring(firing);
+            if(getPhase()==Phase.PLAYER_THINKING) setPhase(Phase.PLAYER_AIM);
         }
-        this.firing=null;
-        if(getPhase()==Phase.PLAYER_AIM) setPhase(Phase.PLAYER_THINKING);
+        else {
+            if(firing.canFire()) setAiFiring(firing);
+        }
+        update();
     }
 
-    public Ship getFiring() {
+    private void setPlayerFiring(Ship firing){
+        this.firing[0]=firing;
+    }
+
+    private void setAiFiring(Ship firing){
+        this.firing[1]=firing;
+    }
+
+    public Ship getPlayerFiring(){
+        return getFiring()[0];
+    }
+
+    public Ship getAiFiring(){
+        return getFiring()[1];
+    }
+
+    public Ship[] getFiring() {
         return firing;
     }
 

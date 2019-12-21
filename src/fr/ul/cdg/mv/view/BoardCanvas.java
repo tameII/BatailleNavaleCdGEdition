@@ -19,7 +19,9 @@ public class BoardCanvas extends Canvas {
         double h = this.getHeight();
         double ws = w/Board.BOARD_SIZE;
         double hs = h/Board.BOARD_SIZE;
+        gc.clearRect(0,0,w,h);
         //Draw board
+        gc.setStroke(Color.gray(0.25));
         for(int i = 0 ; i < Board.BOARD_SIZE ; i++){
             gc.strokeLine(i*ws,0,i*ws,h);
             gc.strokeLine(0,i*hs,w,i*hs);

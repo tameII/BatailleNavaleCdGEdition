@@ -47,6 +47,8 @@ public abstract class Ship {
 
     public String getName() { return "Ship"; }
 
+    public boolean canFire() { return nbMunitions>0 && getHp() > 0; }
+
     @Override
     public String toString() {
         return "Ship{" +
@@ -58,5 +60,5 @@ public abstract class Ship {
                 '}';
     }
 
-    public abstract double getAmmoMAx();
+    public abstract double getAmmoMax();
 }

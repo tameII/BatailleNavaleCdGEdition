@@ -17,7 +17,7 @@ public class FrigateRenaissance extends Ship {
     }
 
     @Override
-    public double getAmmoMAx() {
+    public double getAmmoMax() {
         return AMMO_MAX;
     }
 }

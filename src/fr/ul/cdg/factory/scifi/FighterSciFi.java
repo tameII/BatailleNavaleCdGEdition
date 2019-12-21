@@ -17,7 +17,7 @@ public class FighterSciFi extends Ship {
     }
 
     @Override
-    public double getAmmoMAx() {
+    public double getAmmoMax() {
         return AMMO_MAX;
     }
 }

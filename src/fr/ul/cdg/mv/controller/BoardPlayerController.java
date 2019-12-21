@@ -9,11 +9,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Observable;
 
 public class BoardPlayerController implements Controllers{
@@ -117,9 +114,9 @@ public class BoardPlayerController implements Controllers{
             case PLAYER_AIM:
                 turnLabel.setVisible(false);
                 boatSelectBox.setVisible(true);
-                boatSelectHP.progressProperty().setValue((double)g.getFiring().getHp()/g.getFiring().getNbCells());
-                boatSelectLabel.setText(g.getFiring().getName()+" : ");
-                boatAmmo.progressProperty().setValue((double)g.getFiring().getNbMunitions()/g.getFiring().getAmmoMAx());
+                boatSelectHP.progressProperty().setValue((double)g.getPlayerFiring().getHp()/g.getPlayerFiring().getNbCells());
+                boatSelectLabel.setText(g.getPlayerFiring().getName()+" : ");
+                boatAmmo.progressProperty().setValue((double)g.getPlayerFiring().getNbMunitions()/g.getPlayerFiring().getAmmoMax());
                 break;
             case PLAYER_FIRE:
                 //TODO : Show if the shot was either a hit or miss
