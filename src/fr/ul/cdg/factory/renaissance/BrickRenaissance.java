@@ -5,7 +5,7 @@ import fr.ul.cdg.factory.Ship;
 
 public class BrickRenaissance extends Ship {
     public static int TOTAL_HP = 1;
-    public static int AMMO_MAX = 20;
+    public static int AMMO_MAX = 5;
     public BrickRenaissance(){
         nbCells = 2;
         hp = TOTAL_HP;

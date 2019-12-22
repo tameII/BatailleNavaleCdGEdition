@@ -14,7 +14,7 @@ public class FrigateSciFi extends Ship {
 
     @Override
     public String getName(){
-        return "FrigateSciFi";
+        return "Frigate";
     }
 
     @Override
