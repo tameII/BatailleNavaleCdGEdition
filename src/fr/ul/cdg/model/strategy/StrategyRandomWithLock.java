@@ -29,7 +29,8 @@ public class StrategyRandomWithLock implements Strategy {
         int hp = s==null?-1:s.getHp();
         while(hp==0){
             pos = game.getPlayerBoard().getRandomShotPosition();
-            hp = game.getPlayerBoard().findBoatAtPosition(pos).getHp();
+            s = game.getPlayerBoard().findBoatAtPosition(pos);
+            hp = s==null?-1:s.getHp();
         }
         if(hp>1){
             locktime=LOCK_TIME;
@@ -44,5 +45,10 @@ public class StrategyRandomWithLock implements Strategy {
         }
         locktime=CdGMath.clamp(locktime,0,LOCK_TIME);
         return pos;
+    }
+
+    @Override
+    public Ai.Strategies getAssociatedAiStrategiesName() {
+        return Ai.Strategies.RANDOM_LOCK;
     }
 }

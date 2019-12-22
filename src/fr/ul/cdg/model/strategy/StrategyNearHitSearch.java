@@ -99,6 +99,11 @@ public class StrategyNearHitSearch implements Strategy {
         return pos;
     }
 
+    @Override
+    public Ai.Strategies getAssociatedAiStrategiesName() {
+        return Ai.Strategies.NEAR_HIT_SEARCH;
+    }
+
     private Vector2 getInitialFire(Game game){
         Vector2 pos;
         pos=game.getPlayerBoard().getRandomShotPosition();

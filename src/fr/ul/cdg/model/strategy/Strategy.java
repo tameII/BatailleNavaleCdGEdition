@@ -8,4 +8,5 @@ import java.io.Serializable;
 
 public interface Strategy extends Serializable {
     Vector2 nextShot(Game game);
+    Ai.Strategies getAssociatedAiStrategiesName();
 }

@@ -12,4 +12,9 @@ public class StrategyRandom implements Strategy {
     public Vector2 nextShot(Game game) {
         return game.getPlayerBoard().getRandomShotPosition();
     }
+
+    @Override
+    public Ai.Strategies getAssociatedAiStrategiesName() {
+        return Ai.Strategies.RANDOM;
+    }
 }

@@ -5,6 +5,7 @@ import fr.ul.cdg.model.Game;
 import fr.ul.cdg.util.Vector2;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 
 public class Ai implements Strategist, Serializable{
 
@@ -24,6 +25,11 @@ public class Ai implements Strategist, Serializable{
         currentStrategy = random;
     }
 
+    @Override
+    public Vector2 nextShot(Game game) throws RemoteException {
+        return currentStrategy.nextShot(game);
+    }
+
     /**
      * Check if the given Strategy equal the actual
      * If not, the given strategy replace the actual.
@@ -37,19 +43,20 @@ public class Ai implements Strategist, Serializable{
             return this.currentStrategy.nextShot(game);
         }
 
-        setStrategy(strategy.getClass().getSimpleName());
+        setStrategy(strategy.getAssociatedAiStrategiesName());
         return this.currentStrategy.nextShot(game);
     }
 
-    public void setStrategy(String s) {
+    public void setStrategy(Strategies s) {
         switch(s){
-            case "StrategyRandom":
+            case RANDOM:
                 currentStrategy = random;
                 break;
-            case "StrategyRisingSun":
-                currentStrategy = nearHitSearch;
+            case RANDOM_LOCK:
+                currentStrategy = lock;
                 break;
-            default:
+            case NEAR_HIT_SEARCH:
+                currentStrategy = nearHitSearch;
                 break;
         }
     }
