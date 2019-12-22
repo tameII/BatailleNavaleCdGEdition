@@ -12,12 +12,14 @@ public class Game extends Observable {
     private Board playerBoard;
     private Phase phase;
     private Ship[] firing;
+    private boolean previousHit;
     private Ai ai = new Ai();
 
     public Game(List<Ship> shipListAI, List<Ship> shipListPlayer){
         createBoards(shipListAI, shipListPlayer);
         phase = Phase.PLACING;
         firing = new Ship[]{null,null};
+        previousHit=false;
     }
 
     private void createBoards(List<Ship> shipListAI, List<Ship> shipListPlayer) {
@@ -68,6 +70,7 @@ public class Game extends Observable {
         if(getPhase()==Phase.AI_THINKING){
             //AI shot
             if(playerBoard.takeShot(pos)) {
+                previousHit=playerBoard.findBoatAtPosition(pos)!=null;
                 setPhase(Phase.AI_FIRE);
                 getAiFiring().shot();
                 t.schedule(new TimerTask() {
@@ -87,6 +90,7 @@ public class Game extends Observable {
             //Player shot
             if(!getPlayerFiring().canFire()) return;
             if (aiBoard.takeShot(pos)) {
+                previousHit=aiBoard.findBoatAtPosition(pos)!=null;
                 setPhase(Phase.PLAYER_FIRE);
                 getPlayerFiring().shot();
                 t.schedule(new TimerTask() {
@@ -164,11 +168,14 @@ public class Game extends Observable {
     }
 
     public int getPlayerTotalHP() {
-        return playerBoard.getFleetHp();
-
+        return playerBoard.getFleetTotalHp();
     }
 
     public int getAITotalHP() {
-        return aiBoard.getFleetHp();
+        return aiBoard.getFleetTotalHp();
+    }
+
+    public boolean isPreviousHit() {
+        return previousHit;
     }
 }

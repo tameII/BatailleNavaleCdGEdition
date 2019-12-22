@@ -120,9 +120,9 @@ public class BoardPlayerController implements Controllers{
                 boatAmmo.progressProperty().setValue((double)g.getPlayerFiring().getNbMunitions()/g.getPlayerFiring().getAmmoMax());
                 break;
             case PLAYER_FIRE:
-                //TODO : Show if the shot was either a hit or miss
                 boatSelectBox.setVisible(false);
                 hitLabel.setVisible(true);
+                hitLabel.setText(g.isPreviousHit()?"HIT !":"Missed !");
                 break;
             case AI_FIRE:
             case AI_THINKING:
@@ -135,10 +135,14 @@ public class BoardPlayerController implements Controllers{
                 boatSelectBox.setVisible(false);
                 placingLabel.setVisible(false);
         }
+        playerFleetHP.progressProperty().setValue((float)g.getPlayerBoard().getFleetHp()/(float)g.getPlayerTotalHP());
         if(g.getPlayerBoard().getFleetAmmo()==0){
             hitLabel.setVisible(true);
+            if(g.getPlayerBoard().getFleetHp()==0){
+                hitLabel.setText("Defeated");
+                return;
+            }
             hitLabel.setText("Out of ammo");
         }
-        playerFleetHP.progressProperty().setValue((float)g.getPlayerBoard().getFleetHp()/(float)g.getPlayerTotalHP());
     }
 }

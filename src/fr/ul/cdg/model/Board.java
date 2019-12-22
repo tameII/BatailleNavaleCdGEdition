@@ -318,6 +318,14 @@ public class Board {
         return val;
     }
 
+    public int getFleetTotalHp(){
+        int val=0;
+        for (Ship s : getShipList()){
+            val+=s.getTotalHP();
+        }
+        return val;
+    }
+
     public int getFleetAmmo(){
         int val=0;
         for (Ship s : getShipList()){

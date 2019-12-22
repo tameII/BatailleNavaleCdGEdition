@@ -83,19 +83,24 @@ public class BoardAiController implements Controllers{
                 boatSelectLabel.setVisible(false);
                 break;
             case AI_FIRE:
-                //TODO : Show if the shot was either a hit or miss
                 turnLabel.setVisible(false);
                 hitLabel.setVisible(true);
                 boatSelectLabel.setVisible(true);
+                hitLabel.setText(g.isPreviousHit()?"HIT !":"Missed !");
+                boatSelectLabel.setText("Fired with "+g.getAiFiring().getName());
                 break;
             case GAME_OVER:
                 turnLabel.setVisible(false);
                 boatSelectLabel.setVisible(false);
         }
+        aiFleetHP.progressProperty().setValue((float)g.getAiBoard().getFleetHp()/(float)g.getAITotalHP());
         if(g.getAiBoard().getFleetAmmo()==0){
             hitLabel.setVisible(true);
+            if(g.getAiBoard().getFleetHp()==0){
+                hitLabel.setText("Defeated");
+                return;
+            }
             hitLabel.setText("Out of ammo");
         }
-        aiFleetHP.progressProperty().setValue((float)g.getAiBoard().getFleetHp()/(float)g.getAITotalHP());
     }
 }
