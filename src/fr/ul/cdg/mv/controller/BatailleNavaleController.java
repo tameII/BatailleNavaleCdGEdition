@@ -3,6 +3,7 @@ package fr.ul.cdg.mv.controller;
 import fr.ul.cdg.model.Game;
 import fr.ul.cdg.mv.view.BoardAiView;
 import fr.ul.cdg.mv.view.BoardPlayerView;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
@@ -34,13 +35,21 @@ public class BatailleNavaleController implements Controllers {
 
     @Override
     public void update(Observable o, Object arg) {
+        Platform.runLater(this::redraw);
+    }
+
+    private void redraw(){
         if(game.getPhase()==Phase.GAME_OVER){
             winnerLabel.setVisible(true);
-            if(game.getPlayerBoard().getFleetHp()==0){
+            if(game.getPlayerBoard().getFleetHp() < game.getAiBoard().getFleetHp()){
                 winnerLabel.setText("Communism Wins");
                 return;
             }
-            winnerLabel.setText("De Gaulle Wins");
+            if(game.getPlayerBoard().getFleetHp() > game.getAiBoard().getFleetHp()){
+                winnerLabel.setText("De Gaulle Wins");
+                return;
+            }
+            winnerLabel.setText("Tied");
         }
     }
 }

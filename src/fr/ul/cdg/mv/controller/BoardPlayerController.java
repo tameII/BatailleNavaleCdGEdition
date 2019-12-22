@@ -67,7 +67,7 @@ public class BoardPlayerController implements Controllers{
                     if(event.getButton()==MouseButton.PRIMARY){
                         Vector2 pos = playerBoardCanvas.viewToBoard(new Vector2((int)event.getX(),(int)event.getY()));
                         Ship s = g.getPlayerBoard().findBoatAtPosition(pos);
-                        if(s==null || !s.canFire()){
+                        if(s==null){
                             g.setFiring(null);
                             break;
                         }
@@ -130,6 +130,14 @@ public class BoardPlayerController implements Controllers{
                 boatSelectBox.setVisible(false);
                 hitLabel.setVisible(false);
                 break;
+            case GAME_OVER:
+                turnLabel.setVisible(false);
+                boatSelectBox.setVisible(false);
+                placingLabel.setVisible(false);
+        }
+        if(g.getPlayerBoard().getFleetAmmo()==0){
+            hitLabel.setVisible(true);
+            hitLabel.setText("Out of ammo");
         }
         playerFleetHP.progressProperty().setValue((float)g.getPlayerBoard().getFleetHp()/(float)g.getPlayerTotalHP());
     }

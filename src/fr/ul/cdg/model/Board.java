@@ -18,15 +18,6 @@ public class Board {
     public static final int OUT_OF_BOARD_CELL = 4;
     public static final int INTERVAL_NEAR = 5;
 
-    public int getTotalHP() {
-        int totalHP = 0;
-        for(Ship s: shipList){
-            totalHP+=s.getTotalHP();
-        }
-        return totalHP;
-    }
-
-
     private class Cells{
         int[][] array;
 
@@ -323,6 +314,15 @@ public class Board {
         int val=0;
         for (Ship s : getShipList()){
             val+=s.getHp();
+        }
+        return val;
+    }
+
+    public int getFleetAmmo(){
+        int val=0;
+        for (Ship s : getShipList()){
+            if(!s.canFire()) continue;
+            val+=s.getNbMunitions();
         }
         return val;
     }

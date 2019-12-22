@@ -88,6 +88,13 @@ public class BoardAiController implements Controllers{
                 hitLabel.setVisible(true);
                 boatSelectLabel.setVisible(true);
                 break;
+            case GAME_OVER:
+                turnLabel.setVisible(false);
+                boatSelectLabel.setVisible(false);
+        }
+        if(g.getAiBoard().getFleetAmmo()==0){
+            hitLabel.setVisible(true);
+            hitLabel.setText("Out of ammo");
         }
         aiFleetHP.progressProperty().setValue((float)g.getAiBoard().getFleetHp()/(float)g.getAITotalHP());
     }

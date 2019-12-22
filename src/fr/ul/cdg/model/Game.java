@@ -69,14 +69,18 @@ public class Game extends Observable {
             //AI shot
             if(playerBoard.takeShot(pos)) {
                 setPhase(Phase.AI_FIRE);
+                getAiFiring().shot();
                 t.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        setPhase(Phase.PLAYER_AIM);
+                        if(playerBoard.getFleetAmmo()==0){
+                            setPhase(Phase.AI_THINKING);
+                        }
+                        else {
+                            setPhase(Phase.PLAYER_AIM);
+                        }
                     }
                 },800);
-                getAiFiring().shot();
-                return;
             }
         }
         if(getPhase()==Phase.PLAYER_AIM) {
@@ -88,20 +92,25 @@ public class Game extends Observable {
                 t.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        setPhase(Phase.AI_THINKING);
+                        if(aiBoard.getFleetAmmo()==0) {
+                            setPhase(Phase.PLAYER_AIM);
+                        }
+                        else {
+                            setPhase(Phase.AI_THINKING);
+                        }
                     }
                 }, 750);
             }
         }
-        if(aiBoard.getFleetHp()==0 || playerBoard.getFleetHp()==0){
+        if(aiBoard.getFleetHp()==0 || playerBoard.getFleetHp()==0 || (playerBoard.getFleetAmmo()==0 && aiBoard.getFleetAmmo()==0)){
             t.cancel();
             setPhase(Phase.GAME_OVER);
         }
-
     }
 
     public void nextShotAI(){
         Random rd = new Random();
+        setAiFiring(null);
         while(getAiFiring()==null){
             setFiring(getAiBoard().getShipList().get(rd.nextInt(getAiBoard().getShipList().size())));
         }
@@ -122,11 +131,11 @@ public class Game extends Observable {
         if(getPlayerBoard().getShipList().contains(firing)){
             setPlayerFiring(firing);
             if(getPhase()==Phase.PLAYER_THINKING) setPhase(Phase.PLAYER_AIM);
+            update();
         }
         else {
             if(firing.canFire()) setAiFiring(firing);
         }
-        update();
     }
 
     private void setPlayerFiring(Ship firing){
@@ -155,11 +164,11 @@ public class Game extends Observable {
     }
 
     public int getPlayerTotalHP() {
-        return playerBoard.getTotalHP();
+        return playerBoard.getFleetHp();
 
     }
 
     public int getAITotalHP() {
-        return aiBoard.getTotalHP();
+        return aiBoard.getFleetHp();
     }
 }
