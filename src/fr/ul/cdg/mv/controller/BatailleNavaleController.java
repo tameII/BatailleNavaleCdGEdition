@@ -2,6 +2,7 @@ package fr.ul.cdg.mv.controller;
 
 import fr.ul.cdg.model.Game;
 import fr.ul.cdg.model.strategy.StrategyRandom;
+import fr.ul.cdg.model.strategy.StrategyRandomWithLock;
 import fr.ul.cdg.model.strategy.StrategyRisingSun;
 import fr.ul.cdg.mv.view.BoardAiView;
 import fr.ul.cdg.mv.view.BoardPlayerView;
@@ -48,7 +49,7 @@ public class BatailleNavaleController implements Controllers {
                     game.setAiStrategy(new StrategyRandom());
                     break;
                 case "Random with Lock (2)" :
-                    game.setAiStrategy(new StrategyRandom());
+                    game.setAiStrategy(new StrategyRandomWithLock());
                     break;
                 case "The Rising Sun (5)" :
                     game.setAiStrategy(new StrategyRisingSun());

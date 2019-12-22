@@ -16,7 +16,7 @@ public class Board {
     public static final int OCCUPIED_CELL = 2;
     public static final int OCCUPIED_DAMAGED_CELL = 3;
     public static final int OUT_OF_BOARD_CELL = 4;
-    public static final int INTERVAL_NEAR = 5;
+    public static final int INTERVAL_NEAR = 2;
 
     private class Cells{
         int[][] array;
@@ -121,18 +121,17 @@ public class Board {
          */
         public Vector2 getRandomShotNearPosition(Vector2 pos) {
             Random random = new Random();
-            int diameter = BOARD_SIZE/INTERVAL_NEAR;
-            int radius = diameter/2;
+            int diameter = INTERVAL_NEAR*2;
+            int radius = INTERVAL_NEAR;
             int x = pos.getX() - radius + random.nextInt(diameter+1);
             int y = pos.getY() - radius + random.nextInt(diameter+1);
-            int tries = 4*radius*radius;
+            int tries = 8*radius*radius;
             //Try to get a location near pos
-            while(tries > 0 && isNotFiredCell(x,y)){
+            while(tries > 0 && !isNotFiredCell(x,y)){
                 x = pos.getX() - radius + random.nextInt(diameter+1);
                 y = pos.getY() - radius + random.nextInt(diameter+1);
                 tries--;
             }
-
             if (isNotFiredCell(x, y)) {
                 return new Vector2(x, y);
             }
