@@ -2,9 +2,10 @@ package fr.ul.cdg.util;
 
 import fr.ul.cdg.model.strategy.Directions;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Vector2 {
+public class Vector2 implements Serializable {
     private int x, y;
 
     public Vector2(int x, int y){

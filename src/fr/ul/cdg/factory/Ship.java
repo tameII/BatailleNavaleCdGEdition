@@ -3,7 +3,9 @@ package fr.ul.cdg.factory;
 
 import fr.ul.cdg.util.Vector2;
 
-public abstract class Ship {
+import java.io.Serializable;
+
+public abstract class Ship implements Serializable {
     protected int hp, nbCells, nbMunitions, orientation;
     protected Vector2 position=null;
     public static final int HORIZONTAL = 0;

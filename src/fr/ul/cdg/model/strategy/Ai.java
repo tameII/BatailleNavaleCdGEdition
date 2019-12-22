@@ -4,8 +4,9 @@ package fr.ul.cdg.model.strategy;
 import fr.ul.cdg.model.Game;
 import fr.ul.cdg.util.Vector2;
 
+import java.io.Serializable;
 
-public class Ai{
+public class Ai implements Strategist, Serializable{
 
     public enum Strategies{
         RANDOM,RANDOM_LOCK,NEAR_HIT_SEARCH
@@ -23,20 +24,40 @@ public class Ai{
         currentStrategy = random;
     }
 
-    public Vector2 nextShot(Game game) {
-        return currentStrategy.nextShot(game);
+    /**
+     * Check if the given Strategy equal the actual
+     * If not, the given strategy replace the actual.
+     * @param strategy the strategy you want to use
+     * @param game the game
+     * @return the position of the nextShot
+     */
+    @Override
+    public Vector2 nextShot(Strategy strategy, Game game) {
+        if(this.currentStrategy.equals(strategy)){
+            return this.currentStrategy.nextShot(game);
+        }
+
+        setStrategy(strategy.getClass().getSimpleName());
+        return this.currentStrategy.nextShot(game);
     }
 
-    public void setStrategy(Strategies s) {
+    public void setStrategy(String s) {
         switch(s){
-            case RANDOM:
+            case "StrategyRandom":
                 currentStrategy = random;
                 break;
-            case RANDOM_LOCK:
-                currentStrategy = lock;
-            case NEAR_HIT_SEARCH:
+            case "StrategyRisingSun":
                 currentStrategy = nearHitSearch;
                 break;
+            default:
+                break;
         }
+    }
+
+    /**
+     * @return the current Strategy of the Ai
+     */
+    public Strategy getCurrentStrategy() {
+        return currentStrategy;
     }
 }

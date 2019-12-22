@@ -1,26 +1,34 @@
 package fr.ul.cdg.model;
 
+import client.StrategistClient;
 import fr.ul.cdg.factory.Ship;
 import fr.ul.cdg.model.strategy.Ai;
-import fr.ul.cdg.model.strategy.Strategy;
 import fr.ul.cdg.mv.controller.Phase;
 import fr.ul.cdg.util.Vector2;
 
+import javax.naming.NamingException;
+import java.io.Serializable;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.*;
 
-public class Game extends Observable {
+public class Game extends Observable implements Serializable {
     private Board aiBoard;
     private Board playerBoard;
     private Phase phase;
     private Ship[] firing;
     private boolean previousHit;
     private Ai ai = new Ai();
+    private boolean useRMI;
+    private StrategistClient strategistClient;
 
-    public Game(List<Ship> shipListAI, List<Ship> shipListPlayer){
+    public Game(List<Ship> shipListAI, List<Ship> shipListPlayer, boolean useRMI){
         createBoards(shipListAI, shipListPlayer);
         phase = Phase.PLACING;
         firing = new Ship[]{null,null};
         previousHit=false;
+        this.useRMI = useRMI;
+        strategistClient = new StrategistClient(ai);
     }
 
     private void createBoards(List<Ship> shipListAI, List<Ship> shipListPlayer) {
@@ -113,13 +121,22 @@ public class Game extends Observable {
         }
     }
 
-    public void nextShotAI(){
+    /**
+     * Ask the AI to shoot if it can.
+     * If  RMI is up, ask the distant AI to shoot instead
+     */
+    public void nextShotAI() throws NamingException, NotBoundException, RemoteException {
+
         Random rd = new Random();
         setAiFiring(null);
         while(getAiFiring()==null){
             setFiring(getAiBoard().getShipList().get(rd.nextInt(getAiBoard().getShipList().size())));
         }
-        fireShot(ai.nextShot(this));
+        if(useRMI) {
+            fireShot(strategistClient.nextShotRMI(ai.getCurrentStrategy(), this));
+        }else {
+            fireShot(ai.nextShot(this));
+        }
     }
 
     private void setPhase(Phase phase) {

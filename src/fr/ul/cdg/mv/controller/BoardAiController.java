@@ -10,6 +10,9 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 
+import javax.naming.NamingException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.Observable;
 import java.util.Random;
 import java.util.Timer;
@@ -64,8 +67,16 @@ public class BoardAiController implements Controllers{
                 Timer t = new Timer();
                 t.schedule(new TimerTask() {
                     @Override
-                    public void run() {
-                        g.nextShotAI();
+                    public void run() {  //TODO voir si on peut pas rendre ça plus propre
+                        try {
+                            g.nextShotAI();
+                        } catch (NamingException e) {
+                            e.printStackTrace();
+                        } catch (NotBoundException e) {
+                            e.printStackTrace();
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
                     }
                 },750);
                 break;

@@ -3,11 +3,12 @@ package fr.ul.cdg.model;
 import fr.ul.cdg.factory.Ship;
 import fr.ul.cdg.util.Vector2;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-public class Board {
+public class Board implements Serializable {
     private List<Ship> shipList;
     private Cells cells;
     public static final int BOARD_SIZE = 10;
@@ -18,7 +19,7 @@ public class Board {
     public static final int OUT_OF_BOARD_CELL = 4;
     public static final int INTERVAL_NEAR = 2;
 
-    private class Cells{
+    private class Cells implements Serializable{
         int[][] array;
 
         Cells(){
