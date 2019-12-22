@@ -49,7 +49,7 @@ public class MainMenuController implements Controllers {
         stage.setResizable(false);
         stage.show();
         stage.setWidth(611); //dont even ask about these
-        stage.setHeight(529);
+        stage.setHeight(569);
     }
 
     @Override

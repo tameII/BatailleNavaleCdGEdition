@@ -2,6 +2,7 @@ package fr.ul.cdg.model;
 
 import fr.ul.cdg.factory.Ship;
 import fr.ul.cdg.model.strategy.Ai;
+import fr.ul.cdg.model.strategy.Strategy;
 import fr.ul.cdg.mv.controller.Phase;
 import fr.ul.cdg.util.Vector2;
 
@@ -177,5 +178,9 @@ public class Game extends Observable {
 
     public boolean isPreviousHit() {
         return previousHit;
+    }
+
+    public void setAiStrategy(Strategy s){
+        ai.setStrategy(s);
     }
 }
