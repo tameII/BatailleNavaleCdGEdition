@@ -1,5 +1,7 @@
 package fr.ul.cdg.util;
 
+import fr.ul.cdg.model.strategy.Directions;
+
 import java.util.Objects;
 
 public class Vector2 {
@@ -34,6 +36,12 @@ public class Vector2 {
     public void add(Vector2 delta) { this.x += delta.getX() ; this.y += delta.getY(); }
 
     public void add(int x, int y) { this.add(new Vector2(x,y)); }
+
+    public Vector2 adjacent(Directions directions) {
+        Vector2 next = new Vector2(this);
+        next.add(directions.getAssociatedVector());
+        return next;
+    }
 
     public void mult(int m) { this.mult(m,m); }
 

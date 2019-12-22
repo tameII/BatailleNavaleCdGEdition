@@ -6,14 +6,20 @@ import fr.ul.cdg.util.Vector2;
 
 
 public class Ai{
+
+    public enum Strategies{
+        RANDOM,RANDOM_LOCK,NEAR_HIT_SEARCH
+    }
+
     private Strategy currentStrategy;
     private StrategyRandom random;
-    private StrategyRisingSun risingSun;
-
+    private StrategyRandomWithLock lock;
+    private StrategyNearHitSearch nearHitSearch;
 
     public Ai() {
         random = new StrategyRandom();
-        risingSun = new StrategyRisingSun();
+        lock = new StrategyRandomWithLock();
+        nearHitSearch = new StrategyNearHitSearch();
         currentStrategy = random;
     }
 
@@ -21,17 +27,15 @@ public class Ai{
         return currentStrategy.nextShot(game);
     }
 
-    public void setStrategy(String s) {
+    public void setStrategy(Strategies s) {
         switch(s){
-            case "random":
+            case RANDOM:
                 currentStrategy = random;
-                System.out.println("random");
                 break;
-            case "rising sun":
-                currentStrategy = risingSun;
-                System.out.println("rising sun");
-                break;
-            default:
+            case RANDOM_LOCK:
+                currentStrategy = lock;
+            case NEAR_HIT_SEARCH:
+                currentStrategy = nearHitSearch;
                 break;
         }
     }

@@ -7,7 +7,7 @@ import java.util.Random;
 public enum Directions {
     LEFT,RIGHT,DOWN,UP;
 
-    public Directions getRandomDirection(){
+    public static Directions getRandomDirection(){
         Random rd = new Random();
         switch (rd.nextInt(4)){
             case 0:

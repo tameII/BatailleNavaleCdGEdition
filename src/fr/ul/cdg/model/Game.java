@@ -180,7 +180,7 @@ public class Game extends Observable {
         return previousHit;
     }
 
-    public void setAiStrategy(String s){
+    public void setAiStrategy(Ai.Strategies s){
         ai.setStrategy(s);
     }
 }

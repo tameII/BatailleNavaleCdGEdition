@@ -1,8 +1,8 @@
 package fr.ul.cdg.mv.controller;
 
 import fr.ul.cdg.model.Game;
+import fr.ul.cdg.model.strategy.Ai;
 import fr.ul.cdg.model.strategy.StrategyRandom;
-import fr.ul.cdg.model.strategy.StrategyRisingSun;
 import fr.ul.cdg.mv.view.BoardAiView;
 import fr.ul.cdg.mv.view.BoardPlayerView;
 import javafx.application.Platform;
@@ -30,6 +30,10 @@ public class BatailleNavaleController implements Controllers {
 
     private Game game;
 
+    private static final String randomFT = "Random Fire (1)";
+    private static final String randomLockFT = "Random with Lock (2)";
+    private static final String nearHitFT = "Near Hit Search (5)";
+
     public void initData(Object o){
         game = (Game) o;
         //Create board views
@@ -38,20 +42,18 @@ public class BatailleNavaleController implements Controllers {
         playerPane.getChildren().add(bpv.getView());
         aiPane.getChildren().add(bav.getView());
         //Add choice box choices
-        aiChoiceBox.getItems().add("Random Fire (1)");
-        aiChoiceBox.getItems().add("Random with Lock (2)");
-        aiChoiceBox.getItems().add("The Rising Sun (5)");
-        aiChoiceBox.setValue("Random Fire (1)");
+        aiChoiceBox.getItems().addAll(randomFT,randomLockFT,nearHitFT);
+        aiChoiceBox.setValue(randomFT);
         aiChoiceBox.setOnAction(event -> {
             switch (aiChoiceBox.getValue()){
-                case "Random Fire (1)":
-                    game.setAiStrategy("random");
+                case randomFT :
+                    game.setAiStrategy(Ai.Strategies.RANDOM);
                     break;
-                case "Random with Lock (2)" :
-                    game.setAiStrategy("random");
+                case randomLockFT :
+                    game.setAiStrategy(Ai.Strategies.RANDOM_LOCK);
                     break;
-                case "The Rising Sun (5)" :
-                    game.setAiStrategy("rising sun");
+                case nearHitFT :
+                    game.setAiStrategy(Ai.Strategies.NEAR_HIT_SEARCH);
                     break;
             }
         });
