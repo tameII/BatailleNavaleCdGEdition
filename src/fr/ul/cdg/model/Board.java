@@ -3,11 +3,12 @@ package fr.ul.cdg.model;
 import fr.ul.cdg.factory.Ship;
 import fr.ul.cdg.util.Vector2;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-public class Board {
+public class Board implements Serializable {
     private List<Ship> shipList;
     private Cells cells;
     public static final int BOARD_SIZE = 10;
@@ -16,9 +17,9 @@ public class Board {
     public static final int OCCUPIED_CELL = 2;
     public static final int OCCUPIED_DAMAGED_CELL = 3;
     public static final int OUT_OF_BOARD_CELL = 4;
-    public static final int INTERVAL_NEAR = 5;
+    public static final int INTERVAL_NEAR = 4;
 
-    private class Cells{
+    private class Cells implements Serializable{
         int[][] array;
 
         Cells(){
@@ -116,12 +117,13 @@ public class Board {
         /**
          * We start at the bottom left corner of the circle and
          * we add a random int too it coordinates
+         * the more INTERVAL_NEAR is high, and the less the range of shoot is
          * @param pos the position you want to be near
          * @return a random Vector2 near the given pos
          */
         public Vector2 getRandomShotNearPosition(Vector2 pos) {
             Random random = new Random();
-            int diameter = BOARD_SIZE/INTERVAL_NEAR;
+            int diameter = INTERVAL_NEAR;
             int radius = diameter/2;
             int x = pos.getX() - radius + random.nextInt(diameter+1);
             int y = pos.getY() - radius + random.nextInt(diameter+1);

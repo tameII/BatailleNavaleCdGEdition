@@ -11,11 +11,17 @@ import javafx.stage.StageStyle;
 
 public class BatailleNavaleUnique extends Application {
 
+    /**
+     * Create a unique instance of BatailleNavale in the Renaissance
+     * No rmi can be used here
+     * @param primaryStage the primaryStage
+     * @throws Exception if something bad occur
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         Era era = new EraRenaissance();
         primaryStage.initStyle(StageStyle.DECORATED);
-        BatailleNavaleView mmv = new BatailleNavaleView(new Game(era.shipCreation(),era.shipCreation()));
+        BatailleNavaleView mmv = new BatailleNavaleView(new Game(era.shipCreation(),era.shipCreation(), false));
         primaryStage.setScene(new Scene(mmv.getView()));
         primaryStage.setOnCloseRequest(event -> System.exit(0));
         primaryStage.show();

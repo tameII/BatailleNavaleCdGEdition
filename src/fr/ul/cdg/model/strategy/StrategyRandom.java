@@ -8,15 +8,14 @@ import java.util.Random;
 
 public class StrategyRandom implements Strategy {
     private Vector2 lastShooted;
+    private Vector2 locketTargetPos;
     private boolean lockedTarget;
     private int lockTimer;
-    private Random random;
     private static final int LOCK_TIMER_MAX = 6;
 
     public StrategyRandom(){
         lockedTarget = false;
         lockTimer = 0;
-        random = new Random();
     }
 
     /**
@@ -29,7 +28,7 @@ public class StrategyRandom implements Strategy {
     public Vector2 nextShot(Game game) {
         Vector2 shot;
         if (lockedTarget) {
-            shot = game.getPlayerBoard().getRandomShotNearPosition(lastShooted);
+            shot = game.getPlayerBoard().getRandomShotNearPosition(locketTargetPos);
         }else{
             shot = game.getPlayerBoard().getRandomShotPosition();
         }
@@ -49,8 +48,9 @@ public class StrategyRandom implements Strategy {
     private void updateState(Game game, Vector2 shot){
         if (game.getPlayerBoard().findBoatAtPosition(shot) != null) {
             if(!lockedTarget) {
-                lockTimer = random.nextInt(LOCK_TIMER_MAX);
+                lockTimer = LOCK_TIMER_MAX;
                 lockedTarget = true;
+                locketTargetPos = shot;
             }else if(lockTimer>0){ //lockedTarget=true
                 lockTimer--;
             }else{ //lockedTarget=true && lockTimer<=0

@@ -45,13 +45,13 @@ public class BatailleNavaleController implements Controllers {
         aiChoiceBox.setOnAction(event -> {
             switch (aiChoiceBox.getValue()){
                 case "Random Fire (1)":
-                    game.setAiStrategy("random");
+                    game.setAiStrategy("StrategyRandom");
                     break;
                 case "Random with Lock (2)" :
-                    game.setAiStrategy("random");
+                    game.setAiStrategy("StrategyRandom");
                     break;
                 case "The Rising Sun (5)" :
-                    game.setAiStrategy("rising sun");
+                    game.setAiStrategy("StrategyRisingSun");
                     break;
             }
         });
