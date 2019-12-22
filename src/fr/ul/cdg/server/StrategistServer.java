@@ -1,4 +1,4 @@
-package server;
+package fr.ul.cdg.server;
 
 
 import javax.naming.NamingException;
@@ -10,13 +10,14 @@ import java.rmi.registry.Registry;
 public class StrategistServer
 {
     public static void main(String[] args) throws IOException, NamingException, AlreadyBoundException {
-        ClassServer server = new ClassFileServer(8080, ".");
+        ClassServer server = new ClassFileServer(4230, ".");
 
         System.out.println("Constructing server implementation...");
         StrategistImpl centralStrategist = new StrategistImpl();
 
         System.out.println("Binding server implementation to registry...");
-        Registry registry = LocateRegistry.getRegistry();
+        LocateRegistry.createRegistry(1099);
+        Registry registry = LocateRegistry.getRegistry(1099);
         registry.bind("central_strategist", centralStrategist);
 
         System.out.println("Waiting for invocations from clients...");

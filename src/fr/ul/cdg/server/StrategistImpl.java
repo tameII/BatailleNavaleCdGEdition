@@ -1,4 +1,4 @@
-package server;
+package fr.ul.cdg.server;
 
 
 import fr.ul.cdg.model.Game;

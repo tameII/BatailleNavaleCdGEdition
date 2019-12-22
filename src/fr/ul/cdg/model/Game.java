@@ -1,6 +1,6 @@
 package fr.ul.cdg.model;
 
-import client.StrategistClient;
+import fr.ul.cdg.clients.StrategistClient;
 import fr.ul.cdg.factory.Ship;
 import fr.ul.cdg.model.strategy.Ai;
 import fr.ul.cdg.mv.controller.Phase;

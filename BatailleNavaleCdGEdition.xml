@@ -1,0 +1,47 @@
+<project name="BatailleNavale" basedir="." default="all">
+
+    <property name="src.dir" value="src"/>
+    <property name="out.dir" value="out"/>
+    <property name="class.dir" value="${out.dir}/production/BatailleNavaleCdGEdition"/>
+    <property name="resources.dir" value="resources"/>
+
+    <property name="main-class-client" value="fr.ul.cdg.clients.BatailleNavale"/>
+    <property name="main-class-server" value="fr.ul.cdg.server.StrategistServer"/>
+
+    <target name="compile" depends="copy-resources">
+        <javac includeantruntime="false" srcdir="${src.dir}" destdir="${class.dir}"/>
+    </target>
+
+    <target name="run-client" depends="compile">
+        <echo message="Running client..." />
+        <java classname="${main-class-client}" fork="true" dir="${resources.dir}">
+            <classpath path="${class.dir}"/>
+        </java>
+    </target>
+
+    <target name="run-server" depends="compile">
+        <echo message="Starting server..." />
+        <java classname="${main-class-server}" fork="true" dir="${resources.dir}">
+            <classpath path="${class.dir}" />
+        </java>
+    </target>
+
+    <target name="copy-resources">
+        <mkdir dir="${class.dir}"/>
+        <copy todir="${class.dir}">
+            <fileset dir="${resources.dir}"/>
+        </copy>
+    </target>
+
+    <target name="all" depends="clean">
+        <parallel>
+            <antcall target="run-server"/>
+            <antcall target="run-client"/>
+        </parallel>
+    </target>
+
+    <target name="clean">
+        <delete dir="${out.dir}"/>
+    </target>
+
+</project>

@@ -1,4 +1,4 @@
-package client;
+package fr.ul.cdg.clients;
 
 
 import fr.ul.cdg.model.Game;
@@ -27,13 +27,7 @@ public class StrategistClient implements Serializable {
     public Vector2 nextShotRMI(Strategy strategy, Game game) throws NamingException, RemoteException, NotBoundException {
 
         Registry registry = LocateRegistry.getRegistry();
-
-        System.out.println("RMI registry binding:");
         String[] e = registry.list();
-
-        for (int i = 0; i < e.length; i++) {
-            System.out.println(e[i]);
-        }
 
         String remoteObjectName = "central_strategist";
         Strategist centralStrategist = (Strategist) registry.lookup(remoteObjectName);
@@ -42,6 +36,7 @@ public class StrategistClient implements Serializable {
             return centralStrategist.nextShot(strategy, game);
         }
         //Backup fail
+        System.out.println("Error : Failed to get next move from server ; defaulting to local AI");
         return ai.nextShot(strategy, game);
     }
 

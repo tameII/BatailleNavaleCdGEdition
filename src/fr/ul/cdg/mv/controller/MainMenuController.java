@@ -11,7 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.util.Observable;
 
@@ -29,10 +28,7 @@ public class MainMenuController implements Controllers {
     @FXML
     private CheckBox rmiCheckbox;
 
-    private Boolean useRMI;
-    //TODO lancer le server rmi quand c'est coché
-    //TODO stopper le serveur quand c'est décoché
-    //TODO stopper le serveur quand ça s'éteint
+    private boolean useRMI;
 
     public void initialize(){
         renaissanceEra.setOnAction(event -> {
@@ -65,30 +61,8 @@ public class MainMenuController implements Controllers {
     }
 
     private void checkboxRMIUpdate() {
-        if(rmiCheckbox.isSelected()){
-            useRMI = true;
-            launchRMIServer();
-        }else{
-            useRMI = false;
-            stopRMIServer();
-        }
+        useRMI = rmiCheckbox.isSelected();
     }
-
-    /**
-     * Launch the RMIServer
-     */
-    private void launchRMIServer(){
-        System.out.println("*LAUNCHING NUCLEAR MISSILE* \nErrrh hello ? \nsorry i think i pressed the wrong button.");
-
-    }
-
-    /**
-     * Stop the RMIServer
-     */
-    private void stopRMIServer() {
-        System.out.println("AAAAAAH ! ABORT !\n *ABORT LAUNCH OF NUCLEAR MISSILE*\nOh no\nit's already launched.");
-    }
-
 
     @Override
     public void initData(Object o) {

@@ -1,4 +1,4 @@
-package server;
+package fr.ul.cdg.server;
 /*
  * Copyright (c) 1996, 1996, 1997 Sun Microsystems, Inc. All Rights Reserved.
  * 
