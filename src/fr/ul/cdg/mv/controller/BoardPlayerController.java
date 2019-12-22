@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 import java.util.Observable;
 
@@ -84,6 +85,12 @@ public class BoardPlayerController implements Controllers{
                     break;
             }
         });
+        playerBoardCanvas.setOnMouseMoved(event -> {
+            if(g.getPhase()==Phase.PLACING){
+                playerBoardCanvas.drawBoard(g.getPlayerBoard(),true);
+                playerBoardCanvas.drawBoat(g.getNonPlacedShips().get(0),playerBoardCanvas.viewToBoard(new Vector2((int)event.getX(),(int)event.getY())),vertical?Ship.VERTICAL:Ship.HORIZONTAL,new Color(0,0,1,0.3));
+            }
+        });
     }
 
     @Override
@@ -103,7 +110,6 @@ public class BoardPlayerController implements Controllers{
         Phase phase=g.getPhase();
         switch (phase){
             case PLACING:
-                //TODO : Add a ghost display of where the ship would be placed (or at least a way to know if it's gonna be placed vertically or horizontally)
                 placingLabel.setVisible(true);
                 placingLabel.setText("Placing "+g.getNonPlacedShips().get(0).getName()+" ("+g.getNonPlacedShips().get(0).getNbCells()+")");
                 break;

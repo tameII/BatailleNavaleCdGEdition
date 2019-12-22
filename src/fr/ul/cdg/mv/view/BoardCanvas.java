@@ -30,24 +30,15 @@ public class BoardCanvas extends Canvas {
         // Draw boats if player board or if dead
         for(Ship s : bd.getShipList()){
             if(s.getPosition()==null || (!playerBoard && s.getHp()>0)) continue;
-            Vector2 pos = new Vector2(s.getPosition());
-            pos.mult((int)ws,(int)hs);
-            pos.add((int)ws/5,(int)hs/5);
-            Vector2 size = new Vector2(s.getOrientation()==Ship.HORIZONTAL?s.getNbCells():1,s.getOrientation()==Ship.VERTICAL?s.getNbCells():1);
-            size.mult((int)ws,(int)hs);
-            size.add(-2*(int)ws/5,-2*(int)hs/5);
             if(s.equals(selected)){
-                gc.setFill(new Color(0.3,0.3,1,1));
+                drawBoat(s,new Color(0.3,0.3,1,1));
             }
             else if(s.isDead()){
-               gc.setFill(playerBoard?new Color(1,0,0,1):new Color(1,0,0,1));
+               drawBoat(s,playerBoard?new Color(0,0,0.5,1):new Color(0.5,0,0,1));
             }
             else{
-                gc.setFill(playerBoard?new Color(0,0,1,1):new Color(1,0,0,1));
+                drawBoat(s,playerBoard?new Color(0,0,1,1):new Color(1,0,0,1));
             }
-            gc.fillRect(pos.getX(),pos.getY(),size.getX(),size.getY());
-            gc.setStroke(Color.gray(0));
-            gc.strokeRect(pos.getX(),pos.getY(),size.getX(),size.getY());
         }
         // Draw shots
         for(Board.FiredShots f : bd.getFiredShots()){
@@ -57,6 +48,29 @@ public class BoardCanvas extends Canvas {
                 gc.drawImage(ImagesLoader.getInstance().getSprite(ImagesLoader.Sprites.NOUGHT),f.x*ws,f.y*ws,ws,hs);
             }
         }
+    }
+
+    public void drawBoat(Ship s, Color color){
+        drawBoat(s,s.getPosition(),s.getOrientation(),color);
+    }
+
+    public void drawBoat(Ship s, Vector2 position, int orientation, Color color){
+        GraphicsContext gc = this.getGraphicsContext2D();
+        double w = this.getWidth();
+        double h = this.getHeight();
+        double ws = w/Board.BOARD_SIZE;
+        double hs = h/Board.BOARD_SIZE;
+
+        Vector2 pos = new Vector2(position);
+        pos.mult((int)ws,(int)hs);
+        pos.add((int)ws/5,(int)hs/5);
+        Vector2 size = new Vector2(orientation==Ship.HORIZONTAL?s.getNbCells():1,orientation==Ship.VERTICAL?s.getNbCells():1);
+        size.mult((int)ws,(int)hs);
+        size.add(-2*(int)ws/5,-2*(int)hs/5);
+        gc.setFill(color);
+        gc.fillRect(pos.getX(),pos.getY(),size.getX(),size.getY());
+        gc.setStroke(Color.gray(0));
+        gc.strokeRect(pos.getX(),pos.getY(),size.getX(),size.getY());
     }
 
     public void setSelected(Ship selected) {

@@ -70,11 +70,7 @@ public class BoardAiController implements Controllers{
                     public void run() {  //TODO voir si on peut pas rendre ça plus propre
                         try {
                             g.nextShotAI();
-                        } catch (NamingException e) {
-                            e.printStackTrace();
-                        } catch (NotBoundException e) {
-                            e.printStackTrace();
-                        } catch (RemoteException e) {
+                        } catch (NamingException | NotBoundException | RemoteException e) {
                             e.printStackTrace();
                         }
                     }
