@@ -1,14 +1,12 @@
 package fr.ul.cdg.mv.controller;
 
 import fr.ul.cdg.model.Game;
+import fr.ul.cdg.model.strategy.StrategyNearHitSearch;
 import fr.ul.cdg.model.strategy.StrategyRandom;
 import fr.ul.cdg.model.strategy.StrategyRandomWithLock;
-import fr.ul.cdg.model.strategy.StrategyRisingSun;
 import fr.ul.cdg.mv.view.BoardAiView;
 import fr.ul.cdg.mv.view.BoardPlayerView;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -52,7 +50,7 @@ public class BatailleNavaleController implements Controllers {
                     game.setAiStrategy(new StrategyRandomWithLock());
                     break;
                 case "The Rising Sun (5)" :
-                    game.setAiStrategy(new StrategyRisingSun());
+                    game.setAiStrategy(new StrategyNearHitSearch());
                     break;
             }
         });
