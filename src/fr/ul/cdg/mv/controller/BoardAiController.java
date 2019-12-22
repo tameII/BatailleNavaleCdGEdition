@@ -5,6 +5,8 @@ import fr.ul.cdg.mv.view.BoardCanvas;
 import fr.ul.cdg.util.Vector2;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 
@@ -29,6 +31,9 @@ public class BoardAiController implements Controllers{
 
     @FXML
     private Label turnLabel;
+
+
+
 
     private Game g;
 
@@ -103,4 +108,5 @@ public class BoardAiController implements Controllers{
             hitLabel.setText("Out of ammo");
         }
     }
+
 }

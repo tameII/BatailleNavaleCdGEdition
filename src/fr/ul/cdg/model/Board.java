@@ -217,7 +217,9 @@ public class Board {
         if(cells.isNotFiredCell(pos.getX(),pos.getY())) {
             Ship s = findBoatAtPosition(pos);
             if (s != null) {
-                s.takeShot();
+                if(!s.isDead()) {
+                    s.takeShot();
+                }
             }
             cells.setCellFired(pos.getX(), pos.getY());
             return true;

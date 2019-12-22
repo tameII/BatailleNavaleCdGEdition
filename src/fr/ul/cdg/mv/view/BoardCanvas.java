@@ -39,8 +39,11 @@ public class BoardCanvas extends Canvas {
             if(s.equals(selected)){
                 gc.setFill(new Color(0.3,0.3,1,1));
             }
-            else {
-               gc.setFill(playerBoard?new Color(0,0,1,1):new Color(1,0,0,1));
+            else if(s.isDead()){
+               gc.setFill(playerBoard?new Color(1,0,0,1):new Color(1,0,0,1));
+            }
+            else{
+                gc.setFill(playerBoard?new Color(0,0,1,1):new Color(1,0,0,1));
             }
             gc.fillRect(pos.getX(),pos.getY(),size.getX(),size.getY());
             gc.setStroke(Color.gray(0));
