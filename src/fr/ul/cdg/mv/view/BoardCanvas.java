@@ -34,7 +34,7 @@ public class BoardCanvas extends Canvas {
                 drawBoat(s,new Color(0.3,0.3,1,1));
             }
             else if(s.isDead()){
-               drawBoat(s,playerBoard?new Color(0,0,0.5,1):new Color(0.5,0,0,1));
+               drawBoat(s,playerBoard?new Color(1,0,0.5,1):new Color(0.5,0,0,1));
             }
             else{
                 drawBoat(s,playerBoard?new Color(0,0,1,1):new Color(1,0,0,1));
